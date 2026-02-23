@@ -1,7 +1,0 @@
-Filtrado eficiente: se usa un Map<String, List<Libro>> indexado por género, así librosPorGenero es 
-O(1) promedio y no recorre toda la colección; al añadir un libro se actualiza el índice.
-
-Géneros jerárquicos: representar el género como estructura (árbol o ruta “Novela/Histórica”) y mantener un Map<String, List<Libro>> por cada nodo; al insertar, se añade el libro a su género y a todos sus ancestros para búsquedas rápidas.
-
-Libros por autor con info extra: crear clase Autor (nombre, nacimiento, nacionalidad) y mantener un Map<Autor, List<Libro>> o Map<String, Autor> + Map<Autor, List<Libro>>. Así se consultan libros por autor en 
-O(1) promedio y se centraliza la información del autor.
