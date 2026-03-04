@@ -18,11 +18,63 @@ public class Usuario {
     }
 
     public boolean addEnlace(Enlace e) {
-        
+        if(e.getUsuarioO() != this || e.getUsuarioD() == this) {
+            return false;
+        }
+
+        for(Enlace u : this.enlaces) {
+            if(u.getUsuarioD() == e.getUsuarioD()) {
+                return false;
+            }
+        }
+
+        enlaces.add(e);
+
+        return true;
     }
 
+    public boolean addEnlace(Usuario destino, int coste) {
+
+        Enlace e = new Enlace(this, destino, coste);
+        
+        if(e.getUsuarioO() != this || e.getUsuarioD() == this) {
+            return false;
+        }
+
+        for(Enlace u : this.enlaces) {
+            if(u.getUsuarioD() == e.getUsuarioD()) {
+                return false;
+            }
+        }
+
+        enlaces.add(e);
+
+        return true;
+    }
+
+    public Enlace getEnlace(int i) {
+        return this.enlaces.get(i);
+    }
+
+    public int getNumEnlaces() {
+        return this.enlaces.size();
+    }
+
+    public Enlace getEnlace(Usuario destino) {
+        for(Enlace e : this.enlaces) {
+            if(e.getUsuarioD() == destino) {
+                return e;
+            }
+        }
+        return null;
+    }
+    
     public String getNombre() {
         return "@" + this.nombre;
+    }
+
+    public int getCapacAmpl() {
+        return this.capacAmpl;
     }
 
     @Override

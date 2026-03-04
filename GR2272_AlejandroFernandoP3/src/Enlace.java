@@ -10,6 +10,7 @@ public class Enlace {
     private Usuario usuarioOrigen;
     private Usuario usuarioDestino;
     private int coste;
+    private static int costeTotal=0;
 
     /**
      * Constructor que inicializa un enlace con usuario origen, destino y coste.
@@ -20,7 +21,29 @@ public class Enlace {
     public Enlace(Usuario usuarioOrigen, Usuario usuarioDestino, int coste) {
         this.usuarioOrigen = usuarioOrigen;
         this.usuarioDestino = usuarioDestino;
-        this.coste = coste;
+        if(coste < 1) {
+            this.coste = 1;
+        } else {
+            this.coste = coste;
+        }
+        costeTotal += this.coste;
+    }
+
+
+    public Usuario getUsuarioO() {
+        return this.usuarioOrigen;
+    }
+
+    public Usuario getUsuarioD() {
+        return this.usuarioDestino;
+    }
+
+    public int getCoste() {
+        return this.coste;
+    }
+
+    public int getCosteTotal() {
+        return costeTotal;
     }
 
     /**
