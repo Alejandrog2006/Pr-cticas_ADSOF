@@ -1,0 +1,8 @@
+"Hola!" 10 ana
+carmen
+diego
+
+"Soy Fernando Blanco" 20 carmen
+diego
+mario
+

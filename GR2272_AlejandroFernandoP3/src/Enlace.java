@@ -9,7 +9,7 @@
 public class Enlace {
     private Usuario usuarioOrigen;
     private Usuario usuarioDestino;
-    private int coste;
+    protected int coste;
     private static int costeTotal=0;
 
     /**

@@ -1,9 +1,9 @@
-public class main {
+public class Main {
     public static void main(String[] args) {
-        System.out.println("=== PRUEBAS EXTENSAS DE LAS CLASES ===\n");
+        System.out.println("PRUEBAS EXTENSAS DE LAS CLASES\n");
         
-        // ========== PRUEBAS DE USUARIO ==========
-        System.out.println("--- PRUEBAS DE USUARIO ---");
+        // Pruebas de usuario
+        System.out.println("PRUEBAS DE USUARIO");
         
         // Prueba constructores
         Usuario u1 = new Usuario("maria");
@@ -77,8 +77,8 @@ public class main {
         Enlace enlaceU1aU5 = u1.getEnlace(u5);
         System.out.println("   Enlace de u1 a u5: " + enlaceU1aU5 + " (debe ser null)");
         
-        // ========== PRUEBAS DE ENLACE ==========
-        System.out.println("\n--- PRUEBAS DE ENLACE ---");
+        // Pruebas enlaces
+        System.out.println("\nPRUEBAS DE ENLACE");
         
         Enlace enlPrueba = new Enlace(u4, u5, 30);
         System.out.println("\n9. Constructor y getters:");
@@ -112,8 +112,8 @@ public class main {
         System.out.println("   Coste especial: " + enlPrueba.costeEspecial());
         System.out.println("   Coste real: " + enlPrueba.costeReal());
         
-        // ========== PRUEBAS DE MENSAJE ==========
-        System.out.println("\n--- PRUEBAS DE MENSAJE ---");
+        // Pruebas mensaje
+        System.out.println("\nPRUEBAS DE MENSAJE");
         
         // Crear red de usuarios
         Usuario alice = new Usuario("alice", 2);
@@ -176,49 +176,48 @@ public class main {
         boolean dif3 = msg2.difunde(enlAliceDiana);
         System.out.println("   Intentar difundir alice->diana (coste 25): " + dif3 + " (debe ser false)");
         
-        // Prueba difunde(Usuario...) - múltiples usuarios
-        System.out.println("\n20. difunde(Usuario...) - múltiples usuarios:");
+        // Prueba difunde(List<Usuario>) - múltiples usuarios
+        System.out.println("\n20. difunde(List<Usuario>) - múltiples usuarios:");
         Mensaje msg3 = new Mensaje("Broadcast", 100, alice);
         System.out.println("   Inicio: " + msg3);
-        boolean dif4 = msg3.difunde(bob, diana);
-        System.out.println("   Difundir a bob y diana: " + dif4);
-        System.out.println("   Después de bob: capacidad = 100 - 15 + 3 = 88");
+        boolean dif4 = msg3.difunde(java.util.Arrays.asList(bob, diana)); // método para crear una lista rápida
+        System.out.println("   Difundir a [bob, diana]: " + dif4);
         System.out.println("   Estado actual: " + msg3);
         
-        // Prueba difunde(Usuario...) - con enlace inexistente
-        System.out.println("\n21. difunde(Usuario...) - con enlace inexistente:");
+        // Prueba difunde(List<Usuario>) - con enlace inexistente
+        System.out.println("\n21. difunde(List<Usuario>) - con enlace inexistente:");
         Mensaje msg4 = new Mensaje("Test2", 50, charlie);
         charlie.addEnlace(alice, 20);
         System.out.println("   Inicio: " + msg4);
         Usuario noExiste = new Usuario("nadie");
-        boolean dif5 = msg4.difunde(diana, noExiste, alice);
-        System.out.println("   Difundir a diana, noExiste, alice: " + dif5);
+        boolean dif5 = msg4.difunde(java.util.Arrays.asList(diana, noExiste, alice));
+        System.out.println("   Difundir a [diana, noExiste, alice]: " + dif5);
         System.out.println("   Final: " + msg4);
         
-        // Prueba difunde(Usuario...) - falla por alcance
-        System.out.println("\n22. difunde(Usuario...) - falla por alcance:");
+        // Prueba difunde(List<Usuario>) - falla por alcance
+        System.out.println("\n22. difunde(List<Usuario>) - falla por alcance:");
         Mensaje msg5 = new Mensaje("Test3", 15, alice);
         System.out.println("   Inicio: " + msg5);
-        boolean dif6 = msg5.difunde(bob, diana);
-        System.out.println("   Difundir a bob (coste 15) y diana (coste 25): " + dif6);
+        boolean dif6 = msg5.difunde(java.util.Arrays.asList(bob, diana));
+        System.out.println("   Difundir a [bob, diana]: " + dif6);
         System.out.println("   Final: " + msg5);
         System.out.println("   (Debe llegar a bob pero fallar con diana)");
-        
+
         // Prueba con un solo usuario
-        System.out.println("\n23. difunde(Usuario...) - un solo usuario:");
+        System.out.println("\n23. difunde(List<Usuario>) - un solo usuario:");
         Mensaje msg6 = new Mensaje("Solo uno", 30, alice);
         System.out.println("   Inicio: " + msg6);
-        boolean dif7 = msg6.difunde(charlie);
+        boolean dif7 = msg6.difunde(java.util.Arrays.asList(charlie));
         System.out.println("   Difundir solo a charlie: " + dif7);
         System.out.println("   Final: " + msg6);
         
         // Prueba sin usuarios
-        System.out.println("\n24. difunde(Usuario...) - sin usuarios:");
+        System.out.println("\n24. difunde(List<Usuario>) - sin usuarios:");
         Mensaje msg7 = new Mensaje("Ninguno", 30, alice);
-        boolean dif8 = msg7.difunde();
-        System.out.println("   Difundir sin usuarios: " + dif8);
+        boolean dif8 = msg7.difunde(java.util.Collections.emptyList()); // método para hacer una lista vacía
+        System.out.println("   Difundir lista vacia: " + dif8);
         System.out.println("   Mensaje no cambia: " + msg7);
         
-        System.out.println("\n=== TODAS LAS PRUEBAS COMPLETADAS ===");
+        System.out.println("\nPRUEBAS COMPLETADAS");
     }
 }

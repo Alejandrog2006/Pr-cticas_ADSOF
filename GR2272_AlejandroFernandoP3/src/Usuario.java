@@ -4,17 +4,38 @@ public class Usuario {
     private String nombre;
     private int capacAmpl;
     private List<Enlace> enlaces;
+    private NivelExposicion nivelExposicion;
+
+    public enum NivelExposicion {
+        OCULTA, BAJA, MEDIA, ALTA, VIRAL;
+    }
  
     public Usuario(String nombre) {
         this.nombre = nombre;
         this.capacAmpl = 2;
         this.enlaces = new LinkedList<>();
+        this.nivelExposicion = NivelExposicion.ALTA;
     }
     
     public Usuario(String nombre, int capacAmpl) {
         this.nombre = nombre;
         this.capacAmpl = capacAmpl;
         this.enlaces = new LinkedList<>();
+        this.nivelExposicion = NivelExposicion.ALTA;
+    }
+
+    public Usuario(String nombre, NivelExposicion nivelExposicion) {
+        this.nombre = nombre;
+        this.capacAmpl = 2;
+        this.enlaces = new LinkedList<>();
+        this.nivelExposicion = nivelExposicion;
+    }
+
+    public Usuario(String nombre, int capacAmpl, NivelExposicion nivelExposicion) {
+        this.nombre = nombre;
+        this.capacAmpl = capacAmpl;
+        this.enlaces = new LinkedList<>();
+        this.nivelExposicion = nivelExposicion;
     }
 
     public boolean addEnlace(Enlace e) {
@@ -73,9 +94,15 @@ public class Usuario {
         return "@" + this.nombre;
     }
 
+    public String getNom() { // pal encontar usuario de la red social
+        return this.nombre;
+    }
+
     public int getCapacAmpl() {
         return this.capacAmpl;
     }
+
+    public void 
 
     @Override
     public String toString() {

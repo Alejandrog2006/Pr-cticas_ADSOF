@@ -1,5 +1,7 @@
+import java.util.*;
+
 public class Mensaje {
-    private Usuario autor;
+    private final Usuario autor;
     private String mensaje;
     private int capac;
     private Usuario usuarioActual;
@@ -24,6 +26,10 @@ public class Mensaje {
     public int getCapac() {
         return capac;
     }       
+
+    public String getTexto() {
+        return mensaje;
+    }
 
     public Usuario getUsarioActual() {
         return usuarioActual;
@@ -53,14 +59,18 @@ public class Mensaje {
         return true;
     }
 
-    public boolean difunde(Usuario... usuarios) { // ... es varargs, permite un numero variable de argumentos
+    public boolean difunde(List<Usuario> usuarios) { 
         boolean hayFallo = false;
         for (Usuario u : usuarios) {
             Enlace e = this.usuarioActual.getEnlace(u);
             if (e != null) {
                 if(!this.difunde(e)) {
                     hayFallo = true;
+                } else {
+                    System.out.println(this.toString());
                 }
+            } else {
+                hayFallo = true;
             }
         }
 
