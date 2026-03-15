@@ -1,4 +1,12 @@
+/**
+ * Clase principal para probar las clases de la red social.
+ * Contiene pruebas extensas para las clases Usuario, Enlace y Mensaje.
+ */
 public class Main {
+    /**
+     * Método main que ejecuta pruebas extensas en las clases de la red social.
+     * @param args argumentos de línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
         System.out.println("PRUEBAS EXTENSAS DE LAS CLASES\n");
         

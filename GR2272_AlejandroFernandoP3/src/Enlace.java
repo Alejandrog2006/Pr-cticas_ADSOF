@@ -30,18 +30,34 @@ public class Enlace {
     }
 
 
+    /**
+     * Obtiene el usuario origen del enlace.
+     * @return el usuario origen
+     */
     public Usuario getUsuarioO() {
         return this.usuarioOrigen;
     }
 
+    /**
+     * Obtiene el usuario destino del enlace.
+     * @return el usuario destino
+     */
     public Usuario getUsuarioD() {
         return this.usuarioDestino;
     }
 
+    /**
+     * Obtiene el costo del enlace.
+     * @return el costo
+     */
     public int getCoste() {
         return this.coste;
     }
 
+    /**
+     * Obtiene el costo total acumulado por todos los enlaces.
+     * @return el costo total
+     */
     public int getCosteTotal() {
         return costeTotal;
     }
@@ -69,10 +85,18 @@ public class Enlace {
         return 0;
     }
 
+    /**
+     * Calcula el costo real del enlace, incluyendo el costo especial.
+     * @return el costo real
+     */
     public int costeReal() {
         return this.costeEspecial() + this.coste;
     }
 
+    /**
+     * Devuelve una representación en cadena del enlace.
+     * @return representación en cadena
+     */
     @Override 
     public String toString() {
         return "(" + this.usuarioOrigen.getNombre() + "--" + this.coste + "-->" + this.usuarioDestino.getNombre() + ")";
