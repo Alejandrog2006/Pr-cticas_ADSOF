@@ -1,6 +1,6 @@
 /*
  * Nombre del fichero: PruebaEj6.java
- * Autor: Alejandro Fernando
+ * Autor: Alejandro González y Fernando Blanco
  */
 public class PruebaEj6 {
     public static void main(String[] args) {

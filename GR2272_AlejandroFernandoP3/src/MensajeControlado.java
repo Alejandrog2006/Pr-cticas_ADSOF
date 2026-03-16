@@ -1,5 +1,6 @@
 /**
  * Clase que representa un mensaje controlado en la red social.
+ * Autor: Fernando Blanco
  */
 public class MensajeControlado extends Mensaje {
     private int rigidez;

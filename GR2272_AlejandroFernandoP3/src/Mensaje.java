@@ -126,7 +126,7 @@ public class Mensaje {
                 if(!this.difunde(e)) {
                     hayFallo = true;
                 } else {
-                    System.out.println(this.toString());
+                    /*System.out.println(this.toString());*/
                 }
             } else {
                 hayFallo = true;

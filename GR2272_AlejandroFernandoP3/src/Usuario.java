@@ -3,6 +3,7 @@ import java.util.*;
 /**
  * Representa a un usuario en la red social.
  * Un usuario tiene un nombre, capacidad de amplificación, lista de enlaces, nivel de exposición, historial de mensajes y alcance promedio.
+ * Autor: Fernando Blanco y Alejandro González
  */
 public class Usuario {
     protected String nombre;

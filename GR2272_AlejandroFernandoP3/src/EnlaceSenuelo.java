@@ -1,18 +1,18 @@
 /**
- * Represents a decoy link that may redirect to the origin user with a certain probability.
- * Extends Enlace with additional behavior for special cost and destination.
+ * Representa un enlace señuelo que puede redirigir al usuario de origen con una cierta probabilidad.
+ * Amplia la clase Enlace con un coste especial y un comportamiento alternativo para el destino.
  */
 public class EnlaceSenuelo extends Enlace{
     private int factorExtra;
     private double probabilidad;
 
     /**
-     * Constructs a decoy link.
-     * @param usuarioOrigen the origin user
-     * @param usuarioDestino the intended destination user
-     * @param coste the base cost
-     * @param factorExtra the extra factor for special cost
-     * @param probabilidad the probability of redirecting to origin
+     * Construye un enlace señuelo.
+     * @param usuarioOrigen el usuario de origen
+     * @param usuarioDestino el usuario destino previsto
+     * @param coste el coste base del enlace
+     * @param factorExtra el factor adicional para calcular el coste especial
+     * @param probabilidad la probabilidad de redirigir al origen
      */
     public EnlaceSenuelo(Usuario usuarioOrigen, Usuario usuarioDestino, int coste, 
         int factorExtra, double probabilidad) {
@@ -22,8 +22,8 @@ public class EnlaceSenuelo extends Enlace{
     }
 
     /**
-     * Calculates the special cost of the decoy link.
-     * @return the special cost
+     * Calcula el coste especial del enlace señuelo.
+     * @return el coste especial
      */
     @Override 
     public int costeEspecial() {
@@ -31,8 +31,8 @@ public class EnlaceSenuelo extends Enlace{
     }
 
     /**
-     * Gets the destination user, possibly redirecting to origin based on probability.
-     * @return the destination user or origin if redirected
+     * Obtiene el usuario destino, con posibilidad de redirigir al origen según la probabilidad.
+     * @return el usuario destino o el usuario de origen si se produce la redirección
      */
     @Override
     public Usuario getUsuarioD() {
