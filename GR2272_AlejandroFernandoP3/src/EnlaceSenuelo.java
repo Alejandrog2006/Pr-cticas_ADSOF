@@ -45,5 +45,13 @@ public class EnlaceSenuelo extends Enlace{
         }
     }
 
+    /**
+     * Devuelve una representación en cadena del enlace.
+     * @return representación en cadena
+     */
+    @Override 
+    public String toString() {
+        return super.toString()+ "[FactorExtra: " + this.factorExtra + ", Probabilidad: " + this.probabilidad + "]";
+    }
 
 }

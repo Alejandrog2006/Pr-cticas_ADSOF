@@ -7,8 +7,8 @@
  * Nombre del fichero: Enlace.java
  */
 public class Enlace {
-    private Usuario usuarioOrigen;
-    private Usuario usuarioDestino;
+    protected Usuario usuarioOrigen;
+    protected Usuario usuarioDestino;
     protected int coste;
     private static int costeTotal=0;
 

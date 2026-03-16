@@ -24,6 +24,6 @@ public class UsuarioInteresado extends Usuario {
 
     @Override
     public String toString() {
-        return "@" + this.nombre + "(" + this.capacAmpl + ")" + "(" + this.exposicion + ")" + "[" + toString(enlaces) + "]";
+        return super.toString() + "(Interesado)";
     }
 }

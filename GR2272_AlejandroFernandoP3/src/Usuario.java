@@ -276,7 +276,7 @@ public class Usuario {
      */
     @Override
     public String toString() {
-        return "@" + this.nombre + "(" + this.capacAmpl + ")" + "[" + toString(enlaces) + "]";
+        return "@" + this.nombre + "(" + this.capacAmpl + ")" + "(" + this.exposicion + ")" + "[" + toString(enlaces) + "]";
     }
 
     /**

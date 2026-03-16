@@ -6,9 +6,9 @@ import java.util.*;
  */
 public class Mensaje {
     private final Usuario autor;
-    private String mensaje;
+    protected String mensaje;
     protected int capac;
-    private Usuario usuarioActual;
+    protected Usuario usuarioActual;
 
    /*public Mensaje(Usuario autor, int capac, Usuario usuarioActual) {
         this.autor = autor;
