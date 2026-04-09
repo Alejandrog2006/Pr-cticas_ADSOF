@@ -41,6 +41,13 @@ public abstract class Sensor {
 
     public abstract double medir();
 
+    // he puesto que sea boolean, y que si quieres ver el valor hagas sensor.ultimalectura
+    public boolean obtenerMedida() {
+        this.ultimaLectura = this.medir() - this.offset; // no se si hay que hacer cath de la excepcion de medir
+        this.fechaUltimaLectura = LocalDateTime.now();
+        return true;
+    }
+
     /*Gestión de calibración*/
     public void calibrar() {
         

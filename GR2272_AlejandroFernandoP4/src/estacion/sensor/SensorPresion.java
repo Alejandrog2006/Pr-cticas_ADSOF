@@ -17,6 +17,12 @@ public class SensorPresion extends Sensor{
         if (!this.puedeMedir()) {
             throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
         }
-        return 0.0;
+
+        double medida = 0.0; // aquí iría la lógica para obtener la medida real del sensor de presión
+        if (medida < 300.0 || medida > 1100.0) { // medida en hPa
+            throw new IllegalArgumentException("La medida de presión debe estar entre 300.0 hPa y 1100.0 hPa.");
+        }
+
+        return medida;
     }
 }

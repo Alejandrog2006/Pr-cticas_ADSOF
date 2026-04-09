@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>gr2272</groupId>
+    <artifactId>GR2272_AlejandroFernandoP4</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <outputDirectory>bin</outputDirectory>
+        <testOutputDirectory>bin</testOutputDirectory>
+        
+        <plugins>
+            <!-- Compilador -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                    <compilerArgs>
+                        <arg>-encoding</arg>
+                        <arg>UTF-8</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin para compilar tests desde carpeta test/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>compile-tests</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="Compilando tests desde carpeta test/"/>
+                                <javac srcdir="test" destdir="bin" classpath="bin" source="21" target="21" 
+                                       encoding="UTF-8" includeAntRuntime="false" failonerror="false">
+                                    <exclude name="**/*.class"/>
+                                </javac>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugin para ejecutar tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>run-tests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="Ejecutando tests..."/>
+                                <java classname="SensorTest" classpath="bin" fork="true" failonerror="false"/>
+                                <echo message=""/>
+                                <java classname="EstacionMeteoTest" classpath="bin" fork="true" failonerror="false"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugin para ejecutar clases Java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+
+            <!-- Plugin para limpiar archivos compilados -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>bin</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
