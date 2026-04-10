@@ -82,4 +82,7 @@ public abstract class Sensor {
         return this.id;
     } 
 
+    public UnidadLectura getUnidad() {
+        return this.unidadLectura;
+    }
 }
