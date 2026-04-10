@@ -24,9 +24,11 @@ echo "✓ Tests compilados exitosamente\n"
 
 echo "=== Ejecutando tests ===\n"
 cd bin
-java -cp . estacion.sensor.SensorTest
+java -ea -cp . estacion.sensor.SensorTest
 echo ""
-java -cp . estacion.EstacionMeteoTest
+java -ea -cp . estacion.sensor.SensorEstrategiasTest
+echo ""
+java -ea -cp . estacion.EstacionMeteoTest
 
 echo ""
 echo "=== Tests completados ==="

@@ -49,21 +49,12 @@
                             <target>
                                 <echo message="Compilando tests desde carpeta test/"/>
                                 <javac srcdir="test" destdir="bin" classpath="bin" source="21" target="21" 
-                                       encoding="UTF-8" includeAntRuntime="false" failonerror="false">
+                                       encoding="UTF-8" includeAntRuntime="false" failonerror="true">
                                     <exclude name="**/*.class"/>
                                 </javac>
                             </target>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-
-            <!-- Plugin para ejecutar tests -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
                     <execution>
                         <id>run-tests</id>
                         <phase>test</phase>
@@ -73,9 +64,17 @@
                         <configuration>
                             <target>
                                 <echo message="Ejecutando tests..."/>
-                                <java classname="SensorTest" classpath="bin" fork="true" failonerror="false"/>
+                                <java classname="estacion.sensor.SensorTest" classpath="bin" fork="true" failonerror="true">
+                                    <jvmarg value="-ea"/>
+                                </java>
                                 <echo message=""/>
-                                <java classname="EstacionMeteoTest" classpath="bin" fork="true" failonerror="false"/>
+                                <java classname="estacion.sensor.SensorEstrategiasTest" classpath="bin" fork="true" failonerror="true">
+                                    <jvmarg value="-ea"/>
+                                </java>
+                                <echo message=""/>
+                                <java classname="estacion.EstacionMeteoTest" classpath="bin" fork="true" failonerror="true">
+                                    <jvmarg value="-ea"/>
+                                </java>
                             </target>
                         </configuration>
                     </execution>

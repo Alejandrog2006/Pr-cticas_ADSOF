@@ -1,6 +1,9 @@
 package estacion.sensor;
 
 import java.time.*;
+
+import estacion.sensor.estrategia.Estrategia;
+import estacion.sensor.estrategia.EstrategiaAleatoria;
 import estacion.unidadLectura.*;
 
 public abstract class Sensor {
@@ -14,15 +17,26 @@ public abstract class Sensor {
     protected double ultimaLectura;
     protected LocalDateTime fechaUltimaCalibracion;
     protected boolean estadoCalibracion;
+    protected Estrategia estrategia;
 
     public Sensor(double offset) {
-
         this.offset = offset;
         this.fechaUltimaLectura = null;
         this.ultimaLectura = 0.0;
         this.fechaUltimaCalibracion = null;
         this.estadoCalibracion = false;
         this.fechaInstalacion = LocalDateTime.now();
+        this.estrategia = new EstrategiaAleatoria(); // por defecto, se puede cambiar con un setter si se quiere otra estrategia o con el otro constructor
+    }
+
+    public Sensor(double offset, Estrategia estrategia) {
+        this.offset = offset;
+        this.fechaUltimaLectura = null;
+        this.ultimaLectura = 0.0;
+        this.fechaUltimaCalibracion = null;
+        this.estadoCalibracion = false;
+        this.fechaInstalacion = LocalDateTime.now();
+        this.estrategia = estrategia;
     }
 
     public boolean puedeMedir() {

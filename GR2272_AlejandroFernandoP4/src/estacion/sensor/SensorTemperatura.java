@@ -8,8 +8,8 @@ public class SensorTemperatura extends Sensor {
     public SensorTemperatura(double offset) {
         super(offset);
         this.unidadLectura = UnidadTemperatura.CELSIUS;
-        this.id = "TEMP-" + String.format("%04d", this.numSensores);
-        this.numSensores ++;
+        this.id = "TEMP-" + String.format("%04d", SensorTemperatura.numSensores);
+        SensorTemperatura.numSensores ++;
     }
 
     public double medir() {
@@ -17,7 +17,7 @@ public class SensorTemperatura extends Sensor {
             throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
         }
 
-        double medida = 0.0; // aquí iría la lógica para obtener la medida real del sensor de temperatura
+        double medida = this.estrategia.generarValor(-273.15, 1000.0);
         if (medida < -273.15 || medida > 1000.0) { // en celsius
              throw new IllegalArgumentException("La medida de temperatura debe estar entre -273.15 °C y 1000.0 °C.");
         }

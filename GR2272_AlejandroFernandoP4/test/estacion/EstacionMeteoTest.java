@@ -1,6 +1,9 @@
 package estacion;
 
 import java.time.*;
+import java.lang.reflect.Field;
+
+import estacion.sensor.estrategia.EstrategiaAleatoria;
 
 public class EstacionMeteoTest {
     private static int testCount = 0;
@@ -114,6 +117,8 @@ public class EstacionMeteoTest {
             EstacionPrueba estacion = new EstacionPrueba();
             estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(2.0);
             estacion.sensor.SensorHumedad hum = new estacion.sensor.SensorHumedad(5.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+            setEstrategia(hum, new EstrategiaAleatoria(0.0));
             temp.calibrar();
             hum.calibrar();
             
@@ -135,6 +140,7 @@ public class EstacionMeteoTest {
             estacion.sensor.SensorTemperatura.numSensores = 0;
             EstacionPrueba estacion = new EstacionPrueba();
             estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
             temp.calibrar();
             
             assert estacion.agregarSensor(temp) : "No agregó sensor";
@@ -150,6 +156,16 @@ public class EstacionMeteoTest {
     private static class EstacionPrueba extends EstacionMeteo {
         EstacionPrueba() {
             super("Estacion de prueba", 40.0, -3.0);
+        }
+    }
+
+    private static void setEstrategia(estacion.sensor.Sensor sensor, Object estrategia) {
+        try {
+            Field field = estacion.sensor.Sensor.class.getDeclaredField("estrategia");
+            field.setAccessible(true);
+            field.set(sensor, estrategia);
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo configurar estrategia en test", e);
         }
     }
 }

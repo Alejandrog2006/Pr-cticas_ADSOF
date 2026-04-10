@@ -3,6 +3,9 @@ package estacion.sensor;
 import java.time.*;
 import java.lang.reflect.*;
 
+import estacion.sensor.estrategia.Estrategia;
+import estacion.sensor.estrategia.EstrategiaAleatoria;
+
 public class SensorTest {
     private static int testCount = 0;
     private static int passCount = 0;
@@ -42,6 +45,12 @@ public class SensorTest {
         try {
             SensorTemperatura.numSensores = 0;
             SensorTemperatura sensor = new SensorTemperatura(2.5);
+            sensor.estrategia = new Estrategia() {
+                @Override
+                public double generarValor(double min, double max) {
+                    return 10.0;
+                }
+            };
             sensor.calibrar();
             
             assert sensor.puedeMedir() : "Debería poder medir tras calibrar";
@@ -49,7 +58,8 @@ public class SensorTest {
             double lectura = sensor.medir();
             sensor.obtenerMedida();
             
-            assert Math.abs(sensor.ultimaLectura - (-2.5)) < 0.00001 : "Lectura con offset incorrecta";
+            assert lectura == 10.0 : "Lectura de medir incorrecta";
+            assert Math.abs(sensor.ultimaLectura - 7.5) < 0.00001 : "Lectura con offset incorrecta";
             assert sensor.fechaUltimaLectura != null : "Fecha de lectura no registrada";
             
             System.out.println("✓ testTemperaturaPuedeMedirTrasCalibrar PASÓ");
@@ -81,15 +91,22 @@ public class SensorTest {
         try {
             SensorPresion.numSensores = 0;
             SensorPresion sensor = new SensorPresion(0.0);
+            sensor.estrategia = new EstrategiaAleatoria(1.0);
             sensor.calibrar();
-            
-            try {
-                sensor.medir();
-                System.out.println("✗ testPresionLanzaExcepcion FALLÓ: No lanzó excepción");
-            } catch (IllegalArgumentException e) {
-                System.out.println("✓ testPresionLanzaExcepcion PASÓ");
-                passCount++;
+
+            boolean lanzoExcepcion = false;
+            for (int i = 0; i < 200; i++) {
+                try {
+                    sensor.medir();
+                } catch (IllegalArgumentException e) {
+                    lanzoExcepcion = true;
+                    break;
+                }
             }
+
+            assert lanzoExcepcion : "No lanzó excepción";
+            System.out.println("✓ testPresionLanzaExcepcion PASÓ");
+            passCount++;
         } catch (Exception e) {
             System.out.println("✗ testPresionLanzaExcepcion FALLÓ: " + e.getMessage());
         }

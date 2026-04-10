@@ -8,8 +8,8 @@ public class SensorHumedad extends Sensor{
     public SensorHumedad(double offset) {
         super(offset);
         this.unidadLectura = UnidadHumedad.PORCENTAJE;
-        this.id = "HUM-" + String.format("%04d", this.numSensores);
-        this.numSensores ++;
+        this.id = "HUM-" + String.format("%04d", SensorHumedad.numSensores);
+        SensorHumedad.numSensores ++;
     }
 
 
@@ -18,7 +18,7 @@ public class SensorHumedad extends Sensor{
             throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
         }
 
-        double medida = 0.0; // aquí iría la lógica para obtener la medida real del sensor de humedad
+        double medida = this.estrategia.generarValor(0.0, 100.0); // %
         if (medida < 0.0 || medida > 100.0) {
              throw new IllegalArgumentException("La medida de humedad debe estar entre 0.0 y 100.0.");
         }
