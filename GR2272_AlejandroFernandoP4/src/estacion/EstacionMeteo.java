@@ -3,15 +3,19 @@ package estacion;
 import java.time.Duration;
 import java.util.*;
 
+import estacion.conversor.Conversor;
+import estacion.procesador.ProcesadorDatos;
 import estacion.sensor.*;
 
 public abstract class EstacionMeteo {
     private Map<String, Sensor> sensores; // ID/Sensor
+    private Map<String, ProcesadorDatos> procesadores; // ID/Procesador
     private String nombre;
     private Ubicacion ubicacion;
 
     public EstacionMeteo(String nombre, double lat, double lon) {
         this.sensores = new HashMap<>();
+        this.procesadores = new HashMap<>();
         this.nombre = nombre;
         this.ubicacion = new Ubicacion(lat, lon);
     }
@@ -25,8 +29,21 @@ public abstract class EstacionMeteo {
             throw new IllegalArgumentException("Ya existe un sensor con el ID: " + id);
         }
         this.sensores.put(id, sensor);
+        this.procesadores.put(id, new ProcesadorDatos(sensor));
         return true;
     }
+
+    public boolean agregarSensor(Sensor sensor, Conversor conversor) {
+        String id = sensor.getId();
+        
+        if (this.sensores.containsKey(id)) {
+            throw new IllegalArgumentException("Ya existe un sensor con el ID: " + id);
+        }
+        this.sensores.put(id, sensor);
+        this.procesadores.put(id, new ProcesadorDatos(sensor, conversor));
+        return true;
+    }
+    
 
     public boolean agregarSensor(String tipo, double offset) {
         Sensor sensor;
@@ -52,15 +69,30 @@ public abstract class EstacionMeteo {
             return false;
         }
         this.sensores.remove(id);
+        this.procesadores.remove(id);
         return true;
     }
     
     public boolean leerDatos(){
         for (Sensor sensor : this.sensores.values()) {
             sensor.obtenerMedida();
+            ProcesadorDatos procesador = this.procesadores.get(sensor.getId());
+            procesador.almacenarLectura(sensor.getFechaUltimaLectura(), sensor.getUltimaLectura());
         }
     
         return true;
+    }
+
+    public void configurarConversor(String idSensor, Conversor conversor) {
+        ProcesadorDatos procesador = this.procesadores.get(idSensor);
+        if (procesador == null) {
+            throw new IllegalArgumentException("No existe un sensor con ID: " + idSensor);
+        }
+        procesador.setConversor(conversor);
+    }
+
+    public ProcesadorDatos getProcesador(String idSensor) {
+        return this.procesadores.get(idSensor);
     }
 
     public boolean lecturaPeriodica(Duration intervalo, int numLecturas) {
@@ -82,6 +114,14 @@ public abstract class EstacionMeteo {
 
     public List<Sensor> obtenerSensores() {
         return new ArrayList<Sensor>(this.sensores.values());
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
     }
 
     public List<Sensor> encontrarSensor(String tipo) { // TEMP, HUM, PRES

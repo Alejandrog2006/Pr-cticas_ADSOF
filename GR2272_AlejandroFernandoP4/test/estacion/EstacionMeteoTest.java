@@ -3,6 +3,10 @@ package estacion;
 import java.time.*;
 import java.lang.reflect.Field;
 
+import estacion.conversor.ConversorPresion;
+import estacion.conversor.ConversorTemperatura;
+import estacion.procesador.ProcesadorDatos;
+import estacion.sensor.estrategia.Estrategia;
 import estacion.sensor.estrategia.EstrategiaAleatoria;
 
 public class EstacionMeteoTest {
@@ -18,6 +22,11 @@ public class EstacionMeteoTest {
         testAgregaSensorPorTipoInvalido();
         testLeerDatos();
         testLecturaPeriodica();
+        testProcesadorPorDefectoIdentidad();
+        testConfiguraConversorYCalculaEstadisticas();
+        testConfiguraConversorTemperaturaAFahrenheit();
+        testConfiguraConversorPresionAPa();
+        testConfiguraConversorIncompatibleLanzaExcepcion();
         
         System.out.printf("\n=== Resultados: %d/%d pasaron ===\n", passCount, testCount);
     }
@@ -150,6 +159,164 @@ public class EstacionMeteoTest {
             passCount++;
         } catch (AssertionError e) {
             System.out.println("✗ testLecturaPeriodica FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testProcesadorPorDefectoIdentidad() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+            temp.calibrar();
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            assert estacion.leerDatos() : "No leyó datos";
+
+            ProcesadorDatos procesador = estacion.getProcesador(temp.getId());
+            assert procesador != null : "No se creó el procesador por defecto";
+            assert procesador.getHistorico().size() == 1 : "El procesador no almacenó la lectura";
+
+            double almacenado = procesador.getHistorico().values().iterator().next();
+            assert Math.abs(almacenado - temp.getUltimaLectura()) < 0.00001 : "El conversor por defecto no debería alterar la lectura";
+
+            System.out.println("✓ testProcesadorPorDefectoIdentidad PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testProcesadorPorDefectoIdentidad FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testConfiguraConversorYCalculaEstadisticas() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+
+            setEstrategia(temp, new Estrategia() {
+                private int indice = 0;
+                private final double[] valores = {20.0, 21.0, 22.0};
+
+                @Override
+                public double generarValor(double min, double max) {
+                    return valores[indice++];
+                }
+            });
+
+            temp.calibrar();
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            estacion.configurarConversor(temp.getId(), ConversorTemperatura.CELSIUS_KELVIN);
+
+            assert estacion.leerDatos() : "No realizó lectura 1";
+            assert estacion.leerDatos() : "No realizó lectura 2";
+            assert estacion.leerDatos() : "No realizó lectura 3";
+
+            ProcesadorDatos procesador = estacion.getProcesador(temp.getId());
+            assert procesador.getHistorico().size() == 3 : "Histórico procesado incompleto";
+
+            assert Math.abs(procesador.minimo() - 293.15) < 0.00001 : "Mínimo incorrecto";
+            assert Math.abs(procesador.maximo() - 295.15) < 0.00001 : "Máximo incorrecto";
+            assert Math.abs(procesador.media() - 294.15) < 0.00001 : "Media incorrecta";
+
+            System.out.println("✓ testConfiguraConversorYCalculaEstadisticas PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testConfiguraConversorYCalculaEstadisticas FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testConfiguraConversorTemperaturaAFahrenheit() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+
+            setEstrategia(temp, new Estrategia() {
+                private int indice = 0;
+                private final double[] valores = {0.0, 100.0};
+
+                @Override
+                public double generarValor(double min, double max) {
+                    return valores[indice++];
+                }
+            });
+
+            temp.calibrar();
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            estacion.configurarConversor(temp.getId(), ConversorTemperatura.CELSIUS_FAHRENHEIT);
+
+            assert estacion.leerDatos() : "No realizó lectura 1";
+            assert estacion.leerDatos() : "No realizó lectura 2";
+
+            ProcesadorDatos procesador = estacion.getProcesador(temp.getId());
+            assert Math.abs(procesador.minimo() - 32.0) < 0.00001 : "Conversión a Fahrenheit incorrecta (min)";
+            assert Math.abs(procesador.maximo() - 212.0) < 0.00001 : "Conversión a Fahrenheit incorrecta (max)";
+
+            System.out.println("✓ testConfiguraConversorTemperaturaAFahrenheit PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testConfiguraConversorTemperaturaAFahrenheit FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testConfiguraConversorPresionAPa() {
+        testCount++;
+        try {
+            estacion.sensor.SensorPresion.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorPresion pres = new estacion.sensor.SensorPresion(0.0);
+
+            setEstrategia(pres, new Estrategia() {
+                private int indice = 0;
+                private final double[] valores = {300.0, 301.5};
+
+                @Override
+                public double generarValor(double min, double max) {
+                    return valores[indice++];
+                }
+            });
+
+            pres.calibrar();
+            assert estacion.agregarSensor(pres) : "No agregó sensor";
+            estacion.configurarConversor(pres.getId(), ConversorPresion.HPA_PA);
+
+            assert estacion.leerDatos() : "No realizó lectura 1";
+            assert estacion.leerDatos() : "No realizó lectura 2";
+
+            ProcesadorDatos procesador = estacion.getProcesador(pres.getId());
+            assert Math.abs(procesador.minimo() - 30000.0) < 0.00001 : "Conversión hPa->Pa incorrecta (min)";
+            assert Math.abs(procesador.maximo() - 30150.0) < 0.00001 : "Conversión hPa->Pa incorrecta (max)";
+
+            System.out.println("✓ testConfiguraConversorPresionAPa PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testConfiguraConversorPresionAPa FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testConfiguraConversorIncompatibleLanzaExcepcion() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+            temp.calibrar();
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+
+            try {
+                estacion.configurarConversor(temp.getId(), ConversorPresion.HPA_PA);
+                System.out.println("✗ testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: No lanzó excepción");
+            } catch (IllegalArgumentException e) {
+                System.out.println("✓ testConfiguraConversorIncompatibleLanzaExcepcion PASÓ");
+                passCount++;
+            }
+        } catch (AssertionError e) {
+            System.out.println("✗ testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: " + e.getMessage());
         }
     }
 

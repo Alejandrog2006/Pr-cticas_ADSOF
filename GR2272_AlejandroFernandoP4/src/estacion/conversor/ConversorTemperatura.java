@@ -1,40 +1,41 @@
 package estacion.conversor;
 
 import estacion.unidadLectura.UnidadLectura;
+import estacion.unidadLectura.UnidadTemperatura;
 
 public enum ConversorTemperatura implements Conversor{
-    CELSIUS_KELVIN(UnidadLectura.CELSIUS, UnidadLectura.KELVIN) {
+    CELSIUS_KELVIN(UnidadTemperatura.CELSIUS, UnidadTemperatura.KELVIN) {
         @Override
         public double convertir(double valor) {
             return valor + 273.15;
         }        
     },
-    CELSIUS_FAHRENHEIT(UnidadLectura.CELSIUS, UnidadLectura.FAHRENHEIT) {
+    CELSIUS_FAHRENHEIT(UnidadTemperatura.CELSIUS, UnidadTemperatura.FAHRENHEIT) {
         @Override
         public double convertir(double valor) {
             return valor * 9/5 + 32;
         }
     },
-    KELVIN_CELSIUS(UnidadLectura.KELVIN, UnidadLectura.CELSIUS) {
+    KELVIN_CELSIUS(UnidadTemperatura.KELVIN, UnidadTemperatura.CELSIUS) {
         @Override
         public double convertir(double valor) {
             return valor - 273.15;
         }
     },
-    KELVIN_FAHRENHEIT(UnidadLectura.KELVIN, UnidadLectura.FAHRENHEIT) {
+    KELVIN_FAHRENHEIT(UnidadTemperatura.KELVIN, UnidadTemperatura.FAHRENHEIT) {
         //Se pueden encadenar las conversiones
         @Override
         public double convertir(double valor) {
-            return ConversorTemperatura.CELSIUS_FAHRENHEIT.convertir(ConversorTemperatura.KELVIN_CELSIUS.convertir(valor));;
+            return ConversorTemperatura.CELSIUS_FAHRENHEIT.convertir(ConversorTemperatura.KELVIN_CELSIUS.convertir(valor));
         }
     },
-    FAHRENHEIT_CELSIUS(UnidadLectura.FAHRENHEIT, UnidadLectura.CELSIUS) {
+    FAHRENHEIT_CELSIUS(UnidadTemperatura.FAHRENHEIT, UnidadTemperatura.CELSIUS) {
         @Override
         public double convertir(double valor) {
             return (valor - 32) * 5/9;
         }
     },
-    FAHRENHEIT_KELVIN(UnidadLectura.FAHRENHEIT, UnidadLectura.KELVIN) {
+    FAHRENHEIT_KELVIN(UnidadTemperatura.FAHRENHEIT, UnidadTemperatura.KELVIN) {
         @Override
         public double convertir(double valor) {
             return ConversorTemperatura.CELSIUS_KELVIN.convertir(ConversorTemperatura.FAHRENHEIT_CELSIUS.convertir(valor));

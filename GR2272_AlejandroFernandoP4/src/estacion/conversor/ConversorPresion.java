@@ -1,38 +1,41 @@
 package estacion.conversor;
 
+import estacion.unidadLectura.UnidadLectura;
+import estacion.unidadLectura.UnidadPresion;
+
 public enum ConversorPresion implements Conversor{
-    HPA_PA(UnidadLectura.HPA, UnidadLectura.PA) {
+    HPA_PA(UnidadPresion.HPA, UnidadPresion.PA) {
         @Override
         public double convertir(double valor) {
             return valor * 100;
         }        
     },
-    HPA_MBAR(UnidadLectura.HPA, UnidadLectura.MBAR) {
+    HPA_MBAR(UnidadPresion.HPA, UnidadPresion.MBAR) {
         @Override
         public double convertir(double valor) {
             return valor;
         }        
     },
-    PA_HPA(UnidadLectura.PA, UnidadLectura.HPA) {
+    PA_HPA(UnidadPresion.PA, UnidadPresion.HPA) {
         @Override
         public double convertir(double valor) {
             return valor / 100;
         }        
     },
-    PA_MBAR(UnidadLectura.PA, UnidadLectura.MBAR) {
+    PA_MBAR(UnidadPresion.PA, UnidadPresion.MBAR) {
         //No es óptimo, pero ejemplifican en el enunciado que se pueden encadenar las conversiones
         @Override
         public double convertir(double valor) {
             return ConversorPresion.HPA_MBAR.convertir(ConversorPresion.PA_HPA.convertir(valor));
         }        
     },
-    MBAR_HPA(UnidadLectura.MBAR, UnidadLectura.HPA) {
+    MBAR_HPA(UnidadPresion.MBAR, UnidadPresion.HPA) {
         @Override
         public double convertir(double valor) {
             return valor;
         }
     },
-    MBAR_PA(UnidadLectura.MBAR, UnidadLectura.PA) {
+    MBAR_PA(UnidadPresion.MBAR, UnidadPresion.PA) {
         @Override
         public double convertir(double valor) {
             return ConversorPresion.HPA_PA.convertir(ConversorPresion.MBAR_HPA.convertir(valor));

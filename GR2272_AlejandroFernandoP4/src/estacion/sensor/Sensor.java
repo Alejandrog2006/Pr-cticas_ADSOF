@@ -85,4 +85,12 @@ public abstract class Sensor {
     public UnidadLectura getUnidad() {
         return this.unidadLectura;
     }
+
+    public LocalDateTime getFechaUltimaLectura() {
+        return this.fechaUltimaLectura;
+    }
+
+    public double getUltimaLectura() {
+        return this.ultimaLectura;
+    }
 }

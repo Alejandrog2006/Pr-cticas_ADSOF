@@ -1,5 +1,10 @@
+package estacion.conversor;
+
+import estacion.unidadLectura.UnidadHumedad;
+import estacion.unidadLectura.UnidadLectura;
+
 public enum ConversorHumedad implements Conversor {
-    PORCENTAJE(UnidadLectura.PORCENTAJE, UnidadLectura.PORCENTAJE) {
+    PORCENTAJE(UnidadHumedad.PORCENTAJE, UnidadHumedad.PORCENTAJE) {
         @Override
         public double convertir(double valor) {
             return valor;
