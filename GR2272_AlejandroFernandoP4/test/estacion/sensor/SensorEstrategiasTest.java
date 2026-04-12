@@ -50,7 +50,7 @@ public class SensorEstrategiasTest {
             for (int i = 0; i < 200; i++) {
                 try {
                     sensor.medir();
-                } catch (IllegalArgumentException e) {
+                } catch (RuntimeException e) {
                     lanzoExcepcion = true;
                     break;
                 }

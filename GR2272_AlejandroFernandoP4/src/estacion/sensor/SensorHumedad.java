@@ -1,5 +1,7 @@
 package estacion.sensor;
 
+import estacion.alerta.LecturaFueraDeRangoException;
+import estacion.alerta.SensorNoCalibradoException;
 import estacion.unidadLectura.UnidadHumedad;
 
 public class SensorHumedad extends Sensor{
@@ -15,12 +17,12 @@ public class SensorHumedad extends Sensor{
 
     public double medir() {
         if (!this.puedeMedir()) {
-            throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
+            throw new SensorNoCalibradoException(this.id, "El sensor no esta calibrado o su calibracion caduco");
         }
 
         double medida = this.estrategia.generarValor(0.0, 100.0); // %
         if (medida < 0.0 || medida > 100.0) {
-             throw new IllegalArgumentException("La medida de humedad debe estar entre 0.0 y 100.0.");
+               throw new LecturaFueraDeRangoException(this.id, "La medida de humedad debe estar entre 0.0 y 100.0");
         }
         return medida;
     }

@@ -3,6 +3,8 @@ package estacion;
 import java.time.*;
 import java.lang.reflect.Field;
 
+import estacion.alerta.Alerta;
+import estacion.alerta.TipoAlerta;
 import estacion.conversor.ConversorPresion;
 import estacion.conversor.ConversorTemperatura;
 import estacion.procesador.ProcesadorDatos;
@@ -27,6 +29,9 @@ public class EstacionMeteoTest {
         testConfiguraConversorTemperaturaAFahrenheit();
         testConfiguraConversorPresionAPa();
         testConfiguraConversorIncompatibleLanzaExcepcion();
+        testSensorSinCalibrarGeneraAlertaYSeDetiene();
+        testCalibrarSensorLimpiaAlertasYReanuda();
+        testCambioBruscoGeneraAlertaPeroNoDetiene();
         
         System.out.printf("\n=== Resultados: %d/%d pasaron ===\n", passCount, testCount);
     }
@@ -317,6 +322,100 @@ public class EstacionMeteoTest {
             }
         } catch (AssertionError e) {
             System.out.println("✗ testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testSensorSinCalibrarGeneraAlertaYSeDetiene() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            assert estacion.leerDatos() : "No leyó datos";
+
+            assert estacion.getAlertas().size() == 1 : "Debe registrar alerta por sensor sin calibrar";
+            Alerta alerta = estacion.getAlertas().get(0);
+            assert alerta.getTipo() == TipoAlerta.SENSOR_NO_CALIBRADO : "Tipo de alerta incorrecto";
+            assert estacion.estaDetenido(temp.getId()) : "El sensor debería quedar detenido";
+
+            System.out.println("✓ testSensorSinCalibrarGeneraAlertaYSeDetiene PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testSensorSinCalibrarGeneraAlertaYSeDetiene FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testCalibrarSensorLimpiaAlertasYReanuda() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            assert estacion.leerDatos() : "No leyó datos";
+
+            assert estacion.estaDetenido(temp.getId()) : "El sensor debería quedar detenido";
+            assert estacion.getAlertas().size() == 1 : "Debe haber una alerta previa";
+
+            estacion.calibrarSensor(temp.getId(), 0.0);
+            assert !estacion.estaDetenido(temp.getId()) : "El sensor debería reanudarse tras calibrar";
+            assert estacion.getAlertas().isEmpty() : "La calibración debería limpiar alertas del sensor";
+
+            assert estacion.leerDatos() : "No retomó lectura tras calibrar";
+            assert estacion.getProcesador(temp.getId()).getHistorico().size() == 1 : "No se almacenó lectura tras reanudar";
+
+            System.out.println("✓ testCalibrarSensorLimpiaAlertasYReanuda PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testCalibrarSensorLimpiaAlertasYReanuda FALLÓ: " + e.getMessage());
+        }
+    }
+
+    private static void testCambioBruscoGeneraAlertaPeroNoDetiene() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new Estrategia() {
+                private int indice = 0;
+                private final double[] valores = {20.0, 40.0, 41.0};
+
+                @Override
+                public double generarValor(double min, double max) {
+                    return valores[indice++];
+                }
+            });
+
+            temp.calibrar();
+            estacion.setUmbralCambioBruscoPct(50.0);
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+
+            assert estacion.leerDatos() : "No realizó lectura 1";
+            assert estacion.leerDatos() : "No realizó lectura 2";
+            assert estacion.leerDatos() : "No realizó lectura 3";
+
+            boolean hayAlertaCambioBrusco = false;
+            for (Alerta alerta : estacion.getAlertas()) {
+                if (alerta.getTipo() == TipoAlerta.CAMBIO_BRUSCO) {
+                    hayAlertaCambioBrusco = true;
+                    break;
+                }
+            }
+
+            assert hayAlertaCambioBrusco : "Debe registrar alerta por cambio brusco";
+            assert !estacion.estaDetenido(temp.getId()) : "No debería detenerse por cambio brusco";
+            assert estacion.getProcesador(temp.getId()).getHistorico().size() == 3 : "Debe seguir almacenando lecturas";
+
+            System.out.println("✓ testCambioBruscoGeneraAlertaPeroNoDetiene PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testCambioBruscoGeneraAlertaPeroNoDetiene FALLÓ: " + e.getMessage());
         }
     }
 

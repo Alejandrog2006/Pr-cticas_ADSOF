@@ -1,5 +1,7 @@
 package estacion.sensor;
 
+import estacion.alerta.LecturaFueraDeRangoException;
+import estacion.alerta.SensorNoCalibradoException;
 import estacion.unidadLectura.UnidadPresion;
 
 public class SensorPresion extends Sensor{
@@ -15,12 +17,12 @@ public class SensorPresion extends Sensor{
 
     public double medir() {
         if (!this.puedeMedir()) {
-            throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
+            throw new SensorNoCalibradoException(this.id, "El sensor no esta calibrado o su calibracion caduco");
         }
 
         double medida = this.estrategia.generarValor(300.0, 1100.0); // medida en hPa
         if (medida < 300.0 || medida > 1100.0) { // medida en hPa
-            throw new IllegalArgumentException("La medida de presión debe estar entre 300.0 hPa y 1100.0 hPa.");
+            throw new LecturaFueraDeRangoException(this.id, "La medida de presion debe estar entre 300.0 hPa y 1100.0 hPa");
         }
 
         return medida;

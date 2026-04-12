@@ -98,7 +98,7 @@ public class SensorTest {
             for (int i = 0; i < 200; i++) {
                 try {
                     sensor.medir();
-                } catch (IllegalArgumentException e) {
+                } catch (RuntimeException e) {
                     lanzoExcepcion = true;
                     break;
                 }
@@ -120,8 +120,8 @@ public class SensorTest {
             sensor.calibrar();
 
                 try {
-                    // Simula que la calibración caducó (hace 31 días)
-                    setFieldValue(sensor, "fechaUltimaCalibracion", LocalDateTime.now().minusDays(31));
+                    // Simula que la calibración caducó (hace 366 días)
+                    setFieldValue(sensor, "fechaUltimaCalibracion", LocalDateTime.now().minusDays(366));
                     setFieldValue(sensor, "estadoCalibracion", true);
                 } catch (Exception e) {
                     System.out.println("✗ testCalibracionCaduca FALLÓ: " + e.getMessage());

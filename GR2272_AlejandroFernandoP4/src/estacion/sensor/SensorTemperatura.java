@@ -1,5 +1,7 @@
 package estacion.sensor;
 
+import estacion.alerta.LecturaFueraDeRangoException;
+import estacion.alerta.SensorNoCalibradoException;
 import estacion.unidadLectura.UnidadTemperatura;
 
 public class SensorTemperatura extends Sensor {
@@ -14,12 +16,12 @@ public class SensorTemperatura extends Sensor {
 
     public double medir() {
         if (!this.puedeMedir()) {
-            throw new IllegalStateException("El sensor no está calibrado o ha pasado el intervalo de calibración.");
+            throw new SensorNoCalibradoException(this.id, "El sensor no esta calibrado o su calibracion caduco");
         }
 
         double medida = this.estrategia.generarValor(-273.15, 1000.0);
         if (medida < -273.15 || medida > 1000.0) { // en celsius
-             throw new IllegalArgumentException("La medida de temperatura debe estar entre -273.15 °C y 1000.0 °C.");
+               throw new LecturaFueraDeRangoException(this.id, "La medida de temperatura debe estar entre -273.15 C y 1000.0 C");
         }
         return medida;
     }

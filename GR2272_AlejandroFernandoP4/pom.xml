@@ -96,10 +96,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>bin</directory>
-                            <includes>
-                                <include>**</include>
-                            </includes>
+                            <directory>${project.basedir}/bin</directory>
                         </fileset>
                     </filesets>
                 </configuration>
