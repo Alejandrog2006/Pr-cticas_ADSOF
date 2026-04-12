@@ -88,6 +88,27 @@
                 <version>3.1.0</version>
             </plugin>
 
+            <!-- Registrar carpeta de tests no estándar para Maven/VS Code -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>test</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Plugin para limpiar archivos compilados -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -96,10 +117,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>bin</directory>
-                            <includes>
-                                <include>**</include>
-                            </includes>
+                            <directory>${project.basedir}/bin</directory>
                         </fileset>
                     </filesets>
                 </configuration>

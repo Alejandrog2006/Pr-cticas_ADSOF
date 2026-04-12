@@ -1,4 +1,4 @@
-public int CalcularCosteEjecucionTarea() {
+/*public int CalcularCosteEjecucionTarea() {
 	int tokensTarea = ((StringTokenizer)this.prompt).countTokens;
 	LLM llmAux = this.LLM;
 	int costeToken = llmAux.getCostePorToken();
@@ -19,4 +19,4 @@ public int CalcularCosteRespuesta() {
 	int costeToken = llmAux.getCostePorToken();
 
 	return costeToken * tokensTarea;
-}
+}*/

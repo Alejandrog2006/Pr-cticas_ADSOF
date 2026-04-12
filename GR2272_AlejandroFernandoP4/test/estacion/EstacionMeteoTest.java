@@ -1,18 +1,32 @@
+/*
+ * Pruebas de la estación meteorológica, sus sensores, procesadores y alertas.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion;
 
 import java.time.*;
 import java.lang.reflect.Field;
 
+import estacion.alerta.Alerta;
+import estacion.alerta.TipoAlerta;
 import estacion.conversor.ConversorPresion;
 import estacion.conversor.ConversorTemperatura;
 import estacion.procesador.ProcesadorDatos;
 import estacion.sensor.estrategia.Estrategia;
 import estacion.sensor.estrategia.EstrategiaAleatoria;
 
+/**
+ * Pruebas funcionales de la estación meteorológica.
+ */
 public class EstacionMeteoTest {
     private static int testCount = 0;
     private static int passCount = 0;
 
+    /**
+     * Punto de entrada de las pruebas.
+     *
+     * @param args argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         System.out.println("=== Ejecutando EstacionMeteoTest ===\n");
         
@@ -27,10 +41,16 @@ public class EstacionMeteoTest {
         testConfiguraConversorTemperaturaAFahrenheit();
         testConfiguraConversorPresionAPa();
         testConfiguraConversorIncompatibleLanzaExcepcion();
+        testSensorSinCalibrarGeneraAlertaYSeDetiene();
+        testCalibrarSensorLimpiaAlertasYReanuda();
+        testCambioBruscoGeneraAlertaPeroNoDetiene();
         
         System.out.printf("\n=== Resultados: %d/%d pasaron ===\n", passCount, testCount);
     }
 
+    /**
+     * Comprueba que se agregan y recuperan sensores correctamente.
+     */
     private static void testAgregaYRecuperaSensores() {
         testCount++;
         try {
@@ -57,6 +77,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que agregar un sensor duplicado lanza excepción.
+     */
     private static void testAgregaSensorDuplicadoLanzaExcepcion() {
         testCount++;
         try {
@@ -78,6 +101,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que agregar sensores por tipo funciona.
+     */
     private static void testAgregaSensorPorTipo() {
         testCount++;
         try {
@@ -100,6 +126,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que agregar un sensor por tipo inválido lanza excepción.
+     */
     private static void testAgregaSensorPorTipoInvalido() {
         testCount++;
         try {
@@ -117,6 +146,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que la estación lee datos correctamente.
+     */
     private static void testLeerDatos() {
         testCount++;
         try {
@@ -143,6 +175,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba la lectura periódica.
+     */
     private static void testLecturaPeriodica() {
         testCount++;
         try {
@@ -162,6 +197,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que el procesador por defecto usa conversor identidad.
+     */
     private static void testProcesadorPorDefectoIdentidad() {
         testCount++;
         try {
@@ -188,6 +226,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba configuración de conversor y cálculo de estadísticas.
+     */
     private static void testConfiguraConversorYCalculaEstadisticas() {
         testCount++;
         try {
@@ -227,6 +268,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba conversión de temperatura a Fahrenheit.
+     */
     private static void testConfiguraConversorTemperaturaAFahrenheit() {
         testCount++;
         try {
@@ -262,6 +306,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba conversión de presión a Pa.
+     */
     private static void testConfiguraConversorPresionAPa() {
         testCount++;
         try {
@@ -297,6 +344,9 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que un conversor incompatible lanza excepción.
+     */
     private static void testConfiguraConversorIncompatibleLanzaExcepcion() {
         testCount++;
         try {
@@ -320,12 +370,127 @@ public class EstacionMeteoTest {
         }
     }
 
+    /**
+     * Comprueba que un sensor sin calibrar genera alerta y se detiene.
+     */
+    private static void testSensorSinCalibrarGeneraAlertaYSeDetiene() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            assert estacion.leerDatos() : "No leyó datos";
+
+            assert estacion.getAlertas().size() == 1 : "Debe registrar alerta por sensor sin calibrar";
+            Alerta alerta = estacion.getAlertas().get(0);
+            assert alerta.getTipo() == TipoAlerta.SENSOR_NO_CALIBRADO : "Tipo de alerta incorrecto";
+            assert estacion.estaDetenido(temp.getId()) : "El sensor debería quedar detenido";
+
+            System.out.println("✓ testSensorSinCalibrarGeneraAlertaYSeDetiene PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testSensorSinCalibrarGeneraAlertaYSeDetiene FALLÓ: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Comprueba que calibrar limpia alertas y reanuda la lectura.
+     */
+    private static void testCalibrarSensorLimpiaAlertasYReanuda() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new EstrategiaAleatoria(0.0));
+
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+            assert estacion.leerDatos() : "No leyó datos";
+
+            assert estacion.estaDetenido(temp.getId()) : "El sensor debería quedar detenido";
+            assert estacion.getAlertas().size() == 1 : "Debe haber una alerta previa";
+
+            estacion.calibrarSensor(temp.getId(), 0.0);
+            assert !estacion.estaDetenido(temp.getId()) : "El sensor debería reanudarse tras calibrar";
+            assert estacion.getAlertas().isEmpty() : "La calibración debería limpiar alertas del sensor";
+
+            assert estacion.leerDatos() : "No retomó lectura tras calibrar";
+            assert estacion.getProcesador(temp.getId()).getHistorico().size() == 1 : "No se almacenó lectura tras reanudar";
+
+            System.out.println("✓ testCalibrarSensorLimpiaAlertasYReanuda PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testCalibrarSensorLimpiaAlertasYReanuda FALLÓ: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Comprueba que un cambio brusco genera alerta pero no detiene la lectura.
+     */
+    private static void testCambioBruscoGeneraAlertaPeroNoDetiene() {
+        testCount++;
+        try {
+            estacion.sensor.SensorTemperatura.numSensores = 0;
+            EstacionPrueba estacion = new EstacionPrueba();
+            estacion.sensor.SensorTemperatura temp = new estacion.sensor.SensorTemperatura(0.0);
+            setEstrategia(temp, new Estrategia() {
+                private int indice = 0;
+                private final double[] valores = {20.0, 40.0, 41.0};
+
+                @Override
+                public double generarValor(double min, double max) {
+                    return valores[indice++];
+                }
+            });
+
+            temp.calibrar();
+            estacion.setUmbralCambioBruscoPct(50.0);
+            assert estacion.agregarSensor(temp) : "No agregó sensor";
+
+            assert estacion.leerDatos() : "No realizó lectura 1";
+            assert estacion.leerDatos() : "No realizó lectura 2";
+            assert estacion.leerDatos() : "No realizó lectura 3";
+
+            boolean hayAlertaCambioBrusco = false;
+            for (Alerta alerta : estacion.getAlertas()) {
+                if (alerta.getTipo() == TipoAlerta.CAMBIO_BRUSCO) {
+                    hayAlertaCambioBrusco = true;
+                    break;
+                }
+            }
+
+            assert hayAlertaCambioBrusco : "Debe registrar alerta por cambio brusco";
+            assert !estacion.estaDetenido(temp.getId()) : "No debería detenerse por cambio brusco";
+            assert estacion.getProcesador(temp.getId()).getHistorico().size() == 3 : "Debe seguir almacenando lecturas";
+
+            System.out.println("✓ testCambioBruscoGeneraAlertaPeroNoDetiene PASÓ");
+            passCount++;
+        } catch (AssertionError e) {
+            System.out.println("✗ testCambioBruscoGeneraAlertaPeroNoDetiene FALLÓ: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Clase auxiliar de estación para las pruebas.
+     */
     private static class EstacionPrueba extends EstacionMeteo {
+        /**
+         * Crea una estación de prueba.
+         */
         EstacionPrueba() {
             super("Estacion de prueba", 40.0, -3.0);
         }
     }
 
+    /**
+     * Sustituye la estrategia interna de un sensor usando reflexión.
+     *
+     * @param sensor sensor a modificar.
+     * @param estrategia estrategia a inyectar.
+     */
     private static void setEstrategia(estacion.sensor.Sensor sensor, Object estrategia) {
         try {
             Field field = estacion.sensor.Sensor.class.getDeclaredField("estrategia");

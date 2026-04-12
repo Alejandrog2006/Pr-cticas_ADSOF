@@ -1,13 +1,25 @@
+/*
+ * Pruebas de las estrategias de generación de valores para sensores.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.sensor;
 
 import estacion.sensor.estrategia.EstrategiaAleatoria;
 import estacion.sensor.estrategia.EstrategiaIncremental;
 import estacion.sensor.estrategia.EstrategiaMedia;
 
+/**
+ * Pruebas de las estrategias de generación de lecturas.
+ */
 public class SensorEstrategiasTest {
     private static int testCount = 0;
     private static int passCount = 0;
 
+    /**
+     * Punto de entrada de las pruebas.
+     *
+     * @param args argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         System.out.println("=== Ejecutando SensorEstrategiasTest ===\n");
 
@@ -20,6 +32,9 @@ public class SensorEstrategiasTest {
         System.out.printf("\n=== Resultados: %d/%d pasaron ===\n", passCount, testCount);
     }
 
+    /**
+     * Comprueba que la estrategia aleatoria con probabilidad cero se mantiene en rango.
+     */
     private static void testAleatoriaConProbabilidadCeroPermaneceEnRango() {
         testCount++;
         try {
@@ -39,6 +54,9 @@ public class SensorEstrategiasTest {
         }
     }
 
+    /**
+     * Comprueba que la estrategia aleatoria con probabilidad uno acaba generando una excepción.
+     */
     private static void testAleatoriaConProbabilidadUnoTerminaLanzandoExcepcion() {
         testCount++;
         try {
@@ -50,7 +68,7 @@ public class SensorEstrategiasTest {
             for (int i = 0; i < 200; i++) {
                 try {
                     sensor.medir();
-                } catch (IllegalArgumentException e) {
+                } catch (RuntimeException e) {
                     lanzoExcepcion = true;
                     break;
                 }
@@ -65,6 +83,9 @@ public class SensorEstrategiasTest {
         }
     }
 
+    /**
+     * Comprueba que la estrategia incremental con parámetro cero mantiene el valor.
+     */
     private static void testIncrementalConParametroCeroMantieneValor() {
         testCount++;
         try {
@@ -85,6 +106,9 @@ public class SensorEstrategiasTest {
         }
     }
 
+    /**
+     * Comprueba que la estrategia media con parámetro cero produce valores válidos.
+     */
     private static void testMediaConParametroCeroProduceValoresValidos() {
         testCount++;
         try {
@@ -104,6 +128,9 @@ public class SensorEstrategiasTest {
         }
     }
 
+    /**
+     * Comprueba que los constructores de estrategias validan sus parámetros.
+     */
     private static void testConstructoresEstrategiasValidanParametros() {
         testCount++;
         try {
