@@ -28,13 +28,17 @@ public class DocEstacionMeteo implements IDocumento {
     public List<StringLista> getSeccionesLista() {
         List<StringLista> secciones = new ArrayList<>();
         List<String> sensoresInfo = new ArrayList<>();
-        // Falta manejo de alertas
-        List<?> alertasInfo = new ArrayList<>();
+        List<Alerta> alertasInfo = new ArrayList<>();
         for (Sensor sensor : estacion.obtenerSensores()) {
-            sensoresInfo.add(sensor.getId() + ", Unidad: " + sensor.getUnidad());
+            sensoresInfo.add(sensor.toString());
         }
+        for (Alerta alerta : estacion.getAlertas()) {
+            alertasInfo.add(alerta.toString());
+        }
+        
         secciones.add(new StringLista("Sensores activos", sensoresInfo));
-        secciones.add(new StringLista("Alertas", alertasInfo));
+        secciones.add(new StringLista(("Alertas activas:" + alertasInfo.size()), alertasInfo));
+
         return secciones;
     }
 }

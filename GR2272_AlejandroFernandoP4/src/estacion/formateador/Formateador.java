@@ -1,3 +1,3 @@
 public interface Formateador {
-    String formatear(? extends IDocumento);
+    String formatear(IDocumento documento);
 }
