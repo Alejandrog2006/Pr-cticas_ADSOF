@@ -7,6 +7,7 @@ public interface Conversor {
     UnidadLectura unidadInicial();
     UnidadLectura unidadFinal();
 
+    //Revisar este método
     default Conversor encadenar(Conversor siguiente) {
         if (this.unidadFinal() != siguiente.unidadInicial()) {
             throw new IllegalArgumentException("No se puede encadenar conversores con unidades incompatibles");

@@ -1,4 +1,5 @@
-package estacion;
+package estacion.aux;
+
 public class Ubicacion {
     private double latitud;
     private double longitud;

@@ -10,6 +10,7 @@ public enum ConversorHumedad implements Conversor {
             return valor;
         }
     };
+    
     //Habría que considerar poner otra unidad de humedad, no sólo el porcentaje de 0 a 100 (igual de 0 a 1)
     /*
     PORCENTAJE_DECIMAL {

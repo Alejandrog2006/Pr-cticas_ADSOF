@@ -6,18 +6,22 @@ import java.util.*;
 import estacion.conversor.Conversor;
 import estacion.procesador.ProcesadorDatos;
 import estacion.sensor.*;
+import estacion.aux.Ubicacion;
 
 public abstract class EstacionMeteo {
     private Map<String, Sensor> sensores; // ID/Sensor
     private Map<String, ProcesadorDatos> procesadores; // ID/Procesador
     private String nombre;
     private Ubicacion ubicacion;
+    //Agregado nueva variable
+    private LocalDateTime ultimaLectura;
 
     public EstacionMeteo(String nombre, double lat, double lon) {
         this.sensores = new HashMap<>();
         this.procesadores = new HashMap<>();
         this.nombre = nombre;
         this.ubicacion = new Ubicacion(lat, lon);
+        this.ultimaLectura = null;
     }
 
     // Al agregar, le pasas el sensor, o lo creas y lea pasas el offset?
@@ -79,7 +83,7 @@ public abstract class EstacionMeteo {
             ProcesadorDatos procesador = this.procesadores.get(sensor.getId());
             procesador.almacenarLectura(sensor.getFechaUltimaLectura(), sensor.getUltimaLectura());
         }
-    
+        this.ultimaLectura = LocalDateTime.now();
         return true;
     }
 
@@ -98,6 +102,7 @@ public abstract class EstacionMeteo {
     public boolean lecturaPeriodica(Duration intervalo, int numLecturas) {
         for (int i = 0; i < numLecturas; i++) {
             this.leerDatos();
+            this.ultimaLectura = LocalDateTime.now();
             try {
                 Thread.sleep(intervalo.toMillis());
             } catch (InterruptedException e) {
@@ -122,6 +127,10 @@ public abstract class EstacionMeteo {
 
     public Ubicacion getUbicacion() {
         return ubicacion;
+    }
+
+    public getUltimaLectura() {
+        return ultimaLectura;
     }
 
     public List<Sensor> encontrarSensor(String tipo) { // TEMP, HUM, PRES
