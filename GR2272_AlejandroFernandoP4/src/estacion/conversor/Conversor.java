@@ -30,6 +30,7 @@ public interface Conversor {
      */
     UnidadLectura unidadFinal();
 
+
     /**
      * Encadena este conversor con otro compatible. Repite la lógica de la enumeración de conversores, pero lo hace extensible.
      *
