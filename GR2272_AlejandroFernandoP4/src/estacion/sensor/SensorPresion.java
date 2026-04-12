@@ -1,12 +1,24 @@
+/*
+ * Sensor de presión atmosférica.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.sensor;
 
 import estacion.alerta.LecturaFueraDeRangoException;
 import estacion.alerta.SensorNoCalibradoException;
 import estacion.unidadLectura.UnidadPresion;
 
+/**
+ * Sensor meteorológico de presión atmosférica.
+ */
 public class SensorPresion extends Sensor{
     public static int numSensores = 0;
     
+    /**
+     * Crea un sensor de presión con el offset indicado.
+     *
+     * @param offset corrección fija de la lectura.
+     */
     public SensorPresion(double offset) {
         super(offset);
         this.unidadLectura = UnidadPresion.HPA;
@@ -15,6 +27,11 @@ public class SensorPresion extends Sensor{
     }
 
 
+    /**
+     * Obtiene una lectura de presión atmosférica.
+     *
+     * @return valor de presión en hPa.
+     */
     public double medir() {
         if (!this.puedeMedir()) {
             throw new SensorNoCalibradoException(this.id, "El sensor no esta calibrado o su calibracion caduco");

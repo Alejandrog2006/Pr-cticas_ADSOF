@@ -1,8 +1,15 @@
+/*
+ * Conversores entre unidades de temperatura.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.conversor;
 
 import estacion.unidadLectura.UnidadLectura;
 import estacion.unidadLectura.UnidadTemperatura;
 
+/**
+ * Conversores disponibles entre unidades de temperatura.
+ */
 public enum ConversorTemperatura implements Conversor{
     CELSIUS_KELVIN(UnidadTemperatura.CELSIUS, UnidadTemperatura.KELVIN) {
         @Override
@@ -45,15 +52,31 @@ public enum ConversorTemperatura implements Conversor{
     private UnidadLectura unidadInicial;
     private UnidadLectura unidadFinal;
 
+    /**
+     * Crea la configuración base del conversor de temperatura.
+     *
+     * @param unidadInicial unidad de origen.
+     * @param unidadFinal unidad de destino.
+     */
     private ConversorTemperatura(UnidadLectura unidadInicial, UnidadLectura unidadFinal) {
         this.unidadInicial = unidadInicial;
         this.unidadFinal = unidadFinal;
     }
 
+    /**
+     * Obtiene la unidad inicial.
+     *
+     * @return unidad de entrada.
+     */
     public UnidadLectura unidadInicial() {
         return unidadInicial;
     }
 
+    /**
+     * Obtiene la unidad final.
+     *
+     * @return unidad de salida.
+     */
     public UnidadLectura unidadFinal() {
         return unidadFinal;
     }

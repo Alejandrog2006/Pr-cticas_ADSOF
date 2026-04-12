@@ -1,12 +1,24 @@
+/*
+ * Estrategia que genera valores basados en el anterior con variación incremental.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.sensor.estrategia;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Estrategia incremental que modifica el valor anterior según un parámetro.
+ */
 public class EstrategiaIncremental implements Estrategia {
 
     private double valorAnterior = 0.0;
     private int parametro;
 
+    /**
+     * Crea la estrategia incremental.
+     *
+     * @param parametro porcentaje máximo de variación.
+     */
     public EstrategiaIncremental(int parametro) {
 
         if (parametro < 0 || parametro > 100) {
@@ -15,6 +27,13 @@ public class EstrategiaIncremental implements Estrategia {
         this.parametro = parametro;
     }
 
+    /**
+     * Genera el siguiente valor incremental.
+     *
+     * @param min límite inferior.
+     * @param max límite superior.
+     * @return valor generado.
+     */
     @Override
     public double generarValor(double min, double max) {
 

@@ -1,3 +1,7 @@
+/*
+ * Pruebas unitarias de los sensores meteorológicos.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.sensor;
 
 import java.time.*;
@@ -6,10 +10,18 @@ import java.lang.reflect.*;
 import estacion.sensor.estrategia.Estrategia;
 import estacion.sensor.estrategia.EstrategiaAleatoria;
 
+/**
+ * Pruebas de comportamiento básico de los sensores.
+ */
 public class SensorTest {
     private static int testCount = 0;
     private static int passCount = 0;
 
+    /**
+     * Punto de entrada de las pruebas.
+     *
+     * @param args argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         System.out.println("=== Ejecutando SensorTest ===\n");
         
@@ -23,6 +35,9 @@ public class SensorTest {
         System.out.printf("\n=== Resultados: %d/%d pasaron ===\n", passCount, testCount);
     }
 
+    /**
+     * Comprueba que el sensor de temperatura tiene ID y unidad correctos.
+     */
     private static void testTemperaturaTieneIdYUnidad() {
         testCount++;
         try {
@@ -40,6 +55,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Comprueba que el sensor de temperatura puede medir tras calibrarse.
+     */
     private static void testTemperaturaPuedeMedirTrasCalibrar() {
         testCount++;
         try {
@@ -69,6 +87,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Comprueba que el sensor de humedad tiene ID y unidad correctos.
+     */
     private static void testHumedadTieneIdYUnidad() {
         testCount++;
         try {
@@ -86,6 +107,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Comprueba que el sensor de presión puede lanzar excepción por valor fuera de rango.
+     */
     private static void testPresionLanzaExcepcion() {
         testCount++;
         try {
@@ -112,6 +136,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Comprueba que una calibración caducada impide medir.
+     */
     private static void testCalibracionCaduca() {
         testCount++;
         try {
@@ -137,6 +164,9 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Comprueba el cambio de duración de calibración.
+     */
     private static void testCambiarDuracionCalibracion() {
         testCount++;
         try {
@@ -154,6 +184,14 @@ public class SensorTest {
         }
     }
 
+    /**
+     * Asigna un valor a un campo privado mediante reflexión.
+     *
+     * @param obj objeto objetivo.
+     * @param fieldName nombre del campo.
+     * @param value valor a asignar.
+     * @throws Exception si falla el acceso reflejado.
+     */
     private static void setFieldValue(Object obj, String fieldName, Object value) throws Exception {
         Field field = obj.getClass().getSuperclass().getDeclaredField(fieldName);
         field.setAccessible(true);

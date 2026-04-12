@@ -1,8 +1,15 @@
+/*
+ * Conversores entre unidades de presión.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.conversor;
 
 import estacion.unidadLectura.UnidadLectura;
 import estacion.unidadLectura.UnidadPresion;
 
+/**
+ * Conversores disponibles entre unidades de presión.
+ */
 public enum ConversorPresion implements Conversor{
     HPA_PA(UnidadPresion.HPA, UnidadPresion.PA) {
         @Override
@@ -45,15 +52,31 @@ public enum ConversorPresion implements Conversor{
     private UnidadLectura unidadInicial;
     private UnidadLectura unidadFinal;
 
+    /**
+     * Crea la configuración base del conversor de presión.
+     *
+     * @param unidadInicial unidad de origen.
+     * @param unidadFinal unidad de destino.
+     */
     private ConversorPresion(UnidadLectura unidadInicial, UnidadLectura unidadFinal) {
         this.unidadInicial = unidadInicial;
         this.unidadFinal = unidadFinal;
     }
 
+    /**
+     * Obtiene la unidad inicial.
+     *
+     * @return unidad de entrada.
+     */
     public UnidadLectura unidadInicial() {
         return unidadInicial;
     }
 
+    /**
+     * Obtiene la unidad final.
+     *
+     * @return unidad de salida.
+     */
     public UnidadLectura unidadFinal() {
         return unidadFinal;
     }

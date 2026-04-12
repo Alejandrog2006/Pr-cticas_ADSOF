@@ -1,12 +1,24 @@
+/*
+ * Sensor de temperatura.
+ * Hecho por Alejandro González y Fernando Blanco.
+ */
 package estacion.sensor;
 
 import estacion.alerta.LecturaFueraDeRangoException;
 import estacion.alerta.SensorNoCalibradoException;
 import estacion.unidadLectura.UnidadTemperatura;
 
+/**
+ * Sensor meteorológico de temperatura.
+ */
 public class SensorTemperatura extends Sensor {
     public static int numSensores = 0;
     
+    /**
+     * Crea un sensor de temperatura con el offset indicado.
+     *
+     * @param offset corrección fija de la lectura.
+     */
     public SensorTemperatura(double offset) {
         super(offset);
         this.unidadLectura = UnidadTemperatura.CELSIUS;
@@ -14,6 +26,11 @@ public class SensorTemperatura extends Sensor {
         SensorTemperatura.numSensores ++;
     }
 
+    /**
+     * Obtiene una lectura de temperatura.
+     *
+     * @return valor de temperatura en Celsius.
+     */
     public double medir() {
         if (!this.puedeMedir()) {
             throw new SensorNoCalibradoException(this.id, "El sensor no esta calibrado o su calibracion caduco");
