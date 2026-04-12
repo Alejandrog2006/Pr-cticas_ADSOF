@@ -30,16 +30,13 @@ public interface Conversor {
      */
     UnidadLectura unidadFinal();
 
-<<<<<<< HEAD
-    //Revisar este método
-=======
+
     /**
      * Encadena este conversor con otro compatible. Repite la lógica de la enumeración de conversores, pero lo hace extensible.
      *
      * @param siguiente conversor a aplicar después.
      * @return nuevo conversor compuesto.
      */
->>>>>>> 14e0ac48051c67056a7d177bb4a619525c86b4d6
     default Conversor encadenar(Conversor siguiente) {
         if (this.unidadFinal() != siguiente.unidadInicial()) {
             throw new IllegalArgumentException("No se puede encadenar conversores con unidades incompatibles");

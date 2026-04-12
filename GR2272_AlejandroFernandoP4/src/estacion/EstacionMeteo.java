@@ -29,7 +29,7 @@ public abstract class EstacionMeteo {
     private double umbralCambioBruscoPct;
     private String nombre;
     private Ubicacion ubicacion;
-    //Agregado nueva variable
+     //Agregado nueva variable
     private LocalDateTime ultimaLectura;
 
     /**

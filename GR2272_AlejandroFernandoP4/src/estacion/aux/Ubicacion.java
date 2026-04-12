@@ -1,16 +1,11 @@
-<<<<<<< HEAD:GR2272_AlejandroFernandoP4/src/estacion/aux/Ubicacion.java
-package estacion.aux;
-
-=======
 /*
  * Clase auxiliar para representar la ubicación geográfica de la estación meteorológica.
  * Hecho por Alejandro González y Fernando Blanco.
  */
-package estacion;
+package estacion.aux;
 /**
  * Representa una ubicación geográfica mediante latitud y longitud.
  */
->>>>>>> 14e0ac48051c67056a7d177bb4a619525c86b4d6:GR2272_AlejandroFernandoP4/src/estacion/Ubicacion.java
 public class Ubicacion {
     private double latitud;
     private double longitud;
