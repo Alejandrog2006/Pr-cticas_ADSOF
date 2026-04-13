@@ -48,10 +48,10 @@ public class SensorTest {
             assert sensor.unidadLectura.imprimirSimbolo().equals("Cº") : "Unidad incorrecta";
             assert !sensor.puedeMedir() : "No debería poder medir sin calibrar";
             
-            System.out.println("✓ testTemperaturaTieneIdYUnidad PASÓ");
+            System.out.println("testTemperaturaTieneIdYUnidad PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testTemperaturaTieneIdYUnidad FALLÓ: " + e.getMessage());
+            System.out.println("testTemperaturaTieneIdYUnidad FALLÓ: " + e.getMessage());
         }
     }
 
@@ -80,10 +80,10 @@ public class SensorTest {
             assert Math.abs(sensor.ultimaLectura - 7.5) < 0.00001 : "Lectura con offset incorrecta";
             assert sensor.fechaUltimaLectura != null : "Fecha de lectura no registrada";
             
-            System.out.println("✓ testTemperaturaPuedeMedirTrasCalibrar PASÓ");
+            System.out.println("testTemperaturaPuedeMedirTrasCalibrar PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testTemperaturaPuedeMedirTrasCalibrar FALLÓ: " + e.getMessage());
+            System.out.println("testTemperaturaPuedeMedirTrasCalibrar FALLÓ: " + e.getMessage());
         }
     }
 
@@ -100,10 +100,10 @@ public class SensorTest {
             assert sensor.unidadLectura.imprimirSimbolo().equals("%") : "Unidad incorrecta";
             assert !sensor.puedeMedir() : "No debería poder medir sin calibrar";
             
-            System.out.println("✓ testHumedadTieneIdYUnidad PASÓ");
+            System.out.println("testHumedadTieneIdYUnidad PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testHumedadTieneIdYUnidad FALLÓ: " + e.getMessage());
+            System.out.println("testHumedadTieneIdYUnidad FALLÓ: " + e.getMessage());
         }
     }
 
@@ -129,10 +129,10 @@ public class SensorTest {
             }
 
             assert lanzoExcepcion : "No lanzó excepción";
-            System.out.println("✓ testPresionLanzaExcepcion PASÓ");
+            System.out.println("testPresionLanzaExcepcion PASÓ");
             passCount++;
         } catch (Exception e) {
-            System.out.println("✗ testPresionLanzaExcepcion FALLÓ: " + e.getMessage());
+            System.out.println("testPresionLanzaExcepcion FALLÓ: " + e.getMessage());
         }
     }
 
@@ -151,16 +151,16 @@ public class SensorTest {
                     setFieldValue(sensor, "fechaUltimaCalibracion", LocalDateTime.now().minusDays(366));
                     setFieldValue(sensor, "estadoCalibracion", true);
                 } catch (Exception e) {
-                    System.out.println("✗ testCalibracionCaduca FALLÓ: " + e.getMessage());
+                    System.out.println("testCalibracionCaduca FALLÓ: " + e.getMessage());
                     return;
                 }
 
                 assert !sensor.puedeMedir() : "No debería poder medir con calibración caducada";
             
-            System.out.println("✓ testCalibracionCaduca PASÓ");
+            System.out.println("testCalibracionCaduca PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testCalibracionCaduca FALLÓ: " + e.getMessage());
+            System.out.println("testCalibracionCaduca FALLÓ: " + e.getMessage());
         }
     }
 
@@ -177,10 +177,10 @@ public class SensorTest {
             assert !sensor.setDuracionCalibracion(Duration.ZERO) : "Debería rechazar ZERO";
             assert !sensor.setDuracionCalibracion(Duration.ofDays(-1)) : "Debería rechazar negativo";
             
-            System.out.println("✓ testCambiarDuracionCalibracion PASÓ");
+            System.out.println("testCambiarDuracionCalibracion PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testCambiarDuracionCalibracion FALLÓ: " + e.getMessage());
+            System.out.println("testCambiarDuracionCalibracion FALLÓ: " + e.getMessage());
         }
     }
 

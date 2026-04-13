@@ -1,8 +1,3 @@
-/*
- * Clase principal de la estación meteorológica: gestiona sensores, procesadores,
- * alertas, calibración y lectura periódica.
- * Hecho por Alejandro González y Fernando Blanco.
- */
 package estacion;
 
 import java.time.Duration;
@@ -19,6 +14,8 @@ import estacion.aux.Ubicacion;
 
 /**
  * Estación meteorológica que coordina sensores, procesadores de datos y alertas.
+ * @author Alejandro González
+ * @author Fernando Blanco
  */
 public abstract class EstacionMeteo {
     private Map<String, Sensor> sensores; // ID/Sensor
@@ -340,7 +337,7 @@ public abstract class EstacionMeteo {
         return ubicacion;
     }
 
-    public getUltimaLectura() {
+    public LocalDateTime getUltimaLectura() {
         return ultimaLectura;
     }
 

@@ -1,7 +1,3 @@
-/*
- * Conversor de humedad relativa.
- * Hecho por Alejandro González y Fernando Blanco.
- */
 package estacion.conversor;
 
 import estacion.unidadLectura.UnidadHumedad;
@@ -9,8 +5,11 @@ import estacion.unidadLectura.UnidadLectura;
 
 /**
  * Conversores disponibles para humedad relativa.
+ * @author Alejandro González
+ * @author Fernando Blanco
  */
 public enum ConversorHumedad implements Conversor {
+    /** Conversor identidad para porcentaje. */
     PORCENTAJE(UnidadHumedad.PORCENTAJE, UnidadHumedad.PORCENTAJE) {
         @Override
         public double convertir(double valor) {

@@ -47,10 +47,10 @@ public class SensorEstrategiasTest {
                 assert medida >= -273.15 && medida <= 1000.0 : "Valor fuera de rango con probabilidad 0";
             }
 
-            System.out.println("✓ testAleatoriaConProbabilidadCeroPermaneceEnRango PASÓ");
+            System.out.println("testAleatoriaConProbabilidadCeroPermaneceEnRango PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testAleatoriaConProbabilidadCeroPermaneceEnRango FALLÓ: " + e.getMessage());
+            System.out.println("testAleatoriaConProbabilidadCeroPermaneceEnRango FALLÓ: " + e.getMessage());
         }
     }
 
@@ -76,10 +76,10 @@ public class SensorEstrategiasTest {
 
             assert lanzoExcepcion : "Con probabilidad 1 debía acabar lanzando excepción por fuera de rango";
 
-            System.out.println("✓ testAleatoriaConProbabilidadUnoTerminaLanzandoExcepcion PASÓ");
+            System.out.println("testAleatoriaConProbabilidadUnoTerminaLanzandoExcepcion PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testAleatoriaConProbabilidadUnoTerminaLanzandoExcepcion FALLÓ: " + e.getMessage());
+            System.out.println("testAleatoriaConProbabilidadUnoTerminaLanzandoExcepcion FALLÓ: " + e.getMessage());
         }
     }
 
@@ -99,10 +99,10 @@ public class SensorEstrategiasTest {
             assert primera == 0.0 : "La primera medida esperada con parametro 0 es 0.0";
             assert segunda == primera : "Con parametro 0 debería mantenerse el valor anterior";
 
-            System.out.println("✓ testIncrementalConParametroCeroMantieneValor PASÓ");
+            System.out.println("testIncrementalConParametroCeroMantieneValor PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testIncrementalConParametroCeroMantieneValor FALLÓ: " + e.getMessage());
+            System.out.println("testIncrementalConParametroCeroMantieneValor FALLÓ: " + e.getMessage());
         }
     }
 
@@ -121,10 +121,10 @@ public class SensorEstrategiasTest {
                 assert medida >= 300.0 && medida <= 1100.0 : "Valor fuera de rango con estrategia media parametro 0";
             }
 
-            System.out.println("✓ testMediaConParametroCeroProduceValoresValidos PASÓ");
+            System.out.println("testMediaConParametroCeroProduceValoresValidos PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testMediaConParametroCeroProduceValoresValidos FALLÓ: " + e.getMessage());
+            System.out.println("testMediaConParametroCeroProduceValoresValidos FALLÓ: " + e.getMessage());
         }
     }
 
@@ -160,10 +160,10 @@ public class SensorEstrategiasTest {
             assert incrementalOk : "EstrategiaIncremental debía validar el parámetro";
             assert mediaOk : "EstrategiaMedia debía validar el parámetro";
 
-            System.out.println("✓ testConstructoresEstrategiasValidanParametros PASÓ");
+            System.out.println("testConstructoresEstrategiasValidanParametros PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testConstructoresEstrategiasValidanParametros FALLÓ: " + e.getMessage());
+            System.out.println("testConstructoresEstrategiasValidanParametros FALLÓ: " + e.getMessage());
         }
     }
 }

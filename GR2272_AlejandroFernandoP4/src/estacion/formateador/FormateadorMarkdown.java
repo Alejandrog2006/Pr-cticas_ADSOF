@@ -1,15 +1,19 @@
 package estacion.formateador;
 
-public class FormateadorMarkdown {
+import estacion.aux.StringLista;
+import estacion.iDocumento.IDocumento;
+
+public class FormateadorMarkdown implements Formateador {
+    @Override
     public String formatear(IDocumento documento) {
         StringBuilder markdown = new StringBuilder();
         markdown.append("# ").append(documento.getTituloDocumento()).append("\n\n");
-        
+
         markdown.append("## ").append(documento.getTituloSeccionPrincipal()).append("\n\n");
         for (String parrafo : documento.getParrafosSeccionPrincipal()) {
             markdown.append(parrafo).append("\n\n");
         }
-        
+
         for (StringLista seccion : documento.getSeccionesLista()) {
             markdown.append("### ").append(seccion.getTitulo()).append("\n\n");
             for (String item : seccion.getElementos()) {
@@ -17,7 +21,7 @@ public class FormateadorMarkdown {
             }
             markdown.append("\n");
         }
-        
+
         return markdown.toString();
     }
 }

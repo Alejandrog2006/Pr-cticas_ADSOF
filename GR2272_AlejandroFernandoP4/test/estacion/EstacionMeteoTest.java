@@ -70,10 +70,10 @@ public class EstacionMeteoTest {
             
             assert estacion.obtenerSensores().size() == 2 : "Lista de sensores incorrecta";
             
-            System.out.println("✓ testAgregaYRecuperaSensores PASÓ");
+            System.out.println("testAgregaYRecuperaSensores PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testAgregaYRecuperaSensores FALLÓ: " + e.getMessage());
+            System.out.println("testAgregaYRecuperaSensores FALLÓ: " + e.getMessage());
         }
     }
 
@@ -91,13 +91,13 @@ public class EstacionMeteoTest {
             
             try {
                 estacion.agregarSensor(temp);
-                System.out.println("✗ testAgregaSensorDuplicadoLanzaExcepcion FALLÓ: No lanzó excepción");
+                System.out.println("testAgregaSensorDuplicadoLanzaExcepcion FALLÓ: No lanzó excepción");
             } catch (IllegalArgumentException e) {
-                System.out.println("✓ testAgregaSensorDuplicadoLanzaExcepcion PASÓ");
+                System.out.println("testAgregaSensorDuplicadoLanzaExcepcion PASÓ");
                 passCount++;
             }
         } catch (AssertionError e) {
-            System.out.println("✗ testAgregaSensorDuplicadoLanzaExcepcion FALLÓ: " + e.getMessage());
+            System.out.println("testAgregaSensorDuplicadoLanzaExcepcion FALLÓ: " + e.getMessage());
         }
     }
 
@@ -119,10 +119,10 @@ public class EstacionMeteoTest {
             
             assert estacion.obtenerSensores().size() == 3 : "Tamaño de sensores incorrecto";
             
-            System.out.println("✓ testAgregaSensorPorTipo PASÓ");
+            System.out.println("testAgregaSensorPorTipo PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testAgregaSensorPorTipo FALLÓ: " + e.getMessage());
+            System.out.println("testAgregaSensorPorTipo FALLÓ: " + e.getMessage());
         }
     }
 
@@ -136,13 +136,13 @@ public class EstacionMeteoTest {
             
             try {
                 estacion.agregarSensor("OTRO", 0.0);
-                System.out.println("✗ testAgregaSensorPorTipoInvalido FALLÓ: No lanzó excepción");
+                System.out.println("testAgregaSensorPorTipoInvalido FALLÓ: No lanzó excepción");
             } catch (IllegalArgumentException e) {
-                System.out.println("✓ testAgregaSensorPorTipoInvalido PASÓ");
+                System.out.println("testAgregaSensorPorTipoInvalido PASÓ");
                 passCount++;
             }
         } catch (Exception e) {
-            System.out.println("✗ testAgregaSensorPorTipoInvalido FALLÓ: " + e.getMessage());
+            System.out.println("testAgregaSensorPorTipoInvalido FALLÓ: " + e.getMessage());
         }
     }
 
@@ -168,10 +168,10 @@ public class EstacionMeteoTest {
             
             assert estacion.leerDatos() : "No leyó datos";
             
-            System.out.println("✓ testLeerDatos PASÓ");
+            System.out.println("testLeerDatos PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testLeerDatos FALLÓ: " + e.getMessage());
+            System.out.println("testLeerDatos FALLÓ: " + e.getMessage());
         }
     }
 
@@ -190,10 +190,10 @@ public class EstacionMeteoTest {
             assert estacion.agregarSensor(temp) : "No agregó sensor";
             assert estacion.lecturaPeriodica(Duration.ZERO, 2) : "No hizo lectura periódica";
             
-            System.out.println("✓ testLecturaPeriodica PASÓ");
+            System.out.println("testLecturaPeriodica PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testLecturaPeriodica FALLÓ: " + e.getMessage());
+            System.out.println("testLecturaPeriodica FALLÓ: " + e.getMessage());
         }
     }
 
@@ -219,10 +219,10 @@ public class EstacionMeteoTest {
             double almacenado = procesador.getHistorico().values().iterator().next();
             assert Math.abs(almacenado - temp.getUltimaLectura()) < 0.00001 : "El conversor por defecto no debería alterar la lectura";
 
-            System.out.println("✓ testProcesadorPorDefectoIdentidad PASÓ");
+            System.out.println("testProcesadorPorDefectoIdentidad PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testProcesadorPorDefectoIdentidad FALLÓ: " + e.getMessage());
+            System.out.println("testProcesadorPorDefectoIdentidad FALLÓ: " + e.getMessage());
         }
     }
 
@@ -261,10 +261,10 @@ public class EstacionMeteoTest {
             assert Math.abs(procesador.maximo() - 295.15) < 0.00001 : "Máximo incorrecto";
             assert Math.abs(procesador.media() - 294.15) < 0.00001 : "Media incorrecta";
 
-            System.out.println("✓ testConfiguraConversorYCalculaEstadisticas PASÓ");
+            System.out.println("testConfiguraConversorYCalculaEstadisticas PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testConfiguraConversorYCalculaEstadisticas FALLÓ: " + e.getMessage());
+            System.out.println("testConfiguraConversorYCalculaEstadisticas FALLÓ: " + e.getMessage());
         }
     }
 
@@ -299,10 +299,10 @@ public class EstacionMeteoTest {
             assert Math.abs(procesador.minimo() - 32.0) < 0.00001 : "Conversión a Fahrenheit incorrecta (min)";
             assert Math.abs(procesador.maximo() - 212.0) < 0.00001 : "Conversión a Fahrenheit incorrecta (max)";
 
-            System.out.println("✓ testConfiguraConversorTemperaturaAFahrenheit PASÓ");
+            System.out.println("testConfiguraConversorTemperaturaAFahrenheit PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testConfiguraConversorTemperaturaAFahrenheit FALLÓ: " + e.getMessage());
+            System.out.println("testConfiguraConversorTemperaturaAFahrenheit FALLÓ: " + e.getMessage());
         }
     }
 
@@ -337,10 +337,10 @@ public class EstacionMeteoTest {
             assert Math.abs(procesador.minimo() - 30000.0) < 0.00001 : "Conversión hPa->Pa incorrecta (min)";
             assert Math.abs(procesador.maximo() - 30150.0) < 0.00001 : "Conversión hPa->Pa incorrecta (max)";
 
-            System.out.println("✓ testConfiguraConversorPresionAPa PASÓ");
+            System.out.println("testConfiguraConversorPresionAPa PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testConfiguraConversorPresionAPa FALLÓ: " + e.getMessage());
+            System.out.println("testConfiguraConversorPresionAPa FALLÓ: " + e.getMessage());
         }
     }
 
@@ -360,13 +360,13 @@ public class EstacionMeteoTest {
 
             try {
                 estacion.configurarConversor(temp.getId(), ConversorPresion.HPA_PA);
-                System.out.println("✗ testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: No lanzó excepción");
+                System.out.println("testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: No lanzó excepción");
             } catch (IllegalArgumentException e) {
-                System.out.println("✓ testConfiguraConversorIncompatibleLanzaExcepcion PASÓ");
+                System.out.println("testConfiguraConversorIncompatibleLanzaExcepcion PASÓ");
                 passCount++;
             }
         } catch (AssertionError e) {
-            System.out.println("✗ testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: " + e.getMessage());
+            System.out.println("testConfiguraConversorIncompatibleLanzaExcepcion FALLÓ: " + e.getMessage());
         }
     }
 
@@ -389,10 +389,10 @@ public class EstacionMeteoTest {
             assert alerta.getTipo() == TipoAlerta.SENSOR_NO_CALIBRADO : "Tipo de alerta incorrecto";
             assert estacion.estaDetenido(temp.getId()) : "El sensor debería quedar detenido";
 
-            System.out.println("✓ testSensorSinCalibrarGeneraAlertaYSeDetiene PASÓ");
+            System.out.println("testSensorSinCalibrarGeneraAlertaYSeDetiene PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testSensorSinCalibrarGeneraAlertaYSeDetiene FALLÓ: " + e.getMessage());
+            System.out.println("testSensorSinCalibrarGeneraAlertaYSeDetiene FALLÓ: " + e.getMessage());
         }
     }
 
@@ -420,10 +420,10 @@ public class EstacionMeteoTest {
             assert estacion.leerDatos() : "No retomó lectura tras calibrar";
             assert estacion.getProcesador(temp.getId()).getHistorico().size() == 1 : "No se almacenó lectura tras reanudar";
 
-            System.out.println("✓ testCalibrarSensorLimpiaAlertasYReanuda PASÓ");
+            System.out.println("testCalibrarSensorLimpiaAlertasYReanuda PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testCalibrarSensorLimpiaAlertasYReanuda FALLÓ: " + e.getMessage());
+            System.out.println("testCalibrarSensorLimpiaAlertasYReanuda FALLÓ: " + e.getMessage());
         }
     }
 
@@ -466,10 +466,10 @@ public class EstacionMeteoTest {
             assert !estacion.estaDetenido(temp.getId()) : "No debería detenerse por cambio brusco";
             assert estacion.getProcesador(temp.getId()).getHistorico().size() == 3 : "Debe seguir almacenando lecturas";
 
-            System.out.println("✓ testCambioBruscoGeneraAlertaPeroNoDetiene PASÓ");
+            System.out.println("testCambioBruscoGeneraAlertaPeroNoDetiene PASÓ");
             passCount++;
         } catch (AssertionError e) {
-            System.out.println("✗ testCambioBruscoGeneraAlertaPeroNoDetiene FALLÓ: " + e.getMessage());
+            System.out.println("testCambioBruscoGeneraAlertaPeroNoDetiene FALLÓ: " + e.getMessage());
         }
     }
 

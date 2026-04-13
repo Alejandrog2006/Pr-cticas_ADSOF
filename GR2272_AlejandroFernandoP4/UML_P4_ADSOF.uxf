@@ -1,0 +1,161 @@
+<diagram program="umletino" version="15.1"><zoom_level>3</zoom_level><element><id>UMLClass</id><coordinates><x>198</x><y>195</y><w>111</w><h>84</h></coordinates><panel_attributes>&lt;&lt;abstract&gt;&gt;
+EstacionMeteo
+--
+- sensores: Map&lt;String, Sensor&gt;
+- procesadores: Map&lt;String, ProcesadorDatos&gt;
+- ultimasLecturasPorSensor: Map&lt;String, Double&gt;
+- sensoresDetenidos: Set&lt;String&gt;
+- alertas: List&lt;Alerta&gt;
+- umbralCambioBruscoPct: double
+- nombre: String
+- ubicacion: Ubicacion
+- ultimaLectura: LocalDateTime
+--
++ agregarSensor(sensor: Sensor): boolean
++ agregarSensor(sensor: Sensor, conversor: Conversor): boolean
++ agregarSensor(tipo: String, offset: double): boolean
++ eliminarSensor(id: String): boolean
++ leerDatos(): boolean
++ calibrarSensor(...): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>75</x><y>285</y><w>87</w><h>99</h></coordinates><panel_attributes>&lt;&lt;abstract&gt;&gt;
+Sensor
+--
+- intervaloCalibracion: Duration
+- fechaInstalacion: LocalDateTime
+# id: String
+# offset: double
+# unidadLectura: UnidadLectura
+# fechaUltimaLectura: LocalDateTime
+# ultimaLectura: double
+# fechaUltimaCalibracion: LocalDateTime
+# estadoCalibracion: boolean
+# estrategia: Estrategia
+--
++ puedeMedir(): boolean
++ medir(): double
++ obtenerMedida(): boolean
++ calibrar(): void
++ calibrar(duracion: Duration): void
++ calibrar(fechaCaducidad: LocalDateTime): void
++ getId(): String
++ getUnidad(): UnidadLectura</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>24</x><y>291</y><w>45</w><h>27</h></coordinates><panel_attributes>SensorTemperatura
+--
++ numSensores: int
+--
++ medir(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>24</x><y>321</y><w>45</w><h>24</h></coordinates><panel_attributes>SensorHumedad
+--
++ numSensores: int
+--
++ medir(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>24</x><y>348</y><w>45</w><h>27</h></coordinates><panel_attributes>SensorPresion
+--
++ numSensores: int
+--
++ medir(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>186</x><y>288</y><w>75</w><h>90</h></coordinates><panel_attributes>ProcesadorDatos
+--
+- historico: Map&lt;LocalDateTime, Double&gt;
+- conversor: Conversor
+- sensor: Sensor
+--
++ almacenarLectura(fecha, valor): void
++ setConversor(conversor: Conversor): void
++ getConversor(): Conversor
++ getSensor(): Sensor
++ getUnidadSalida(): UnidadLectura
++ minimo(): double
++ maximo(): double
++ media(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>294</x><y>294</y><w>57</w><h>30</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+Conversor
+--
++ convertir(valor: double): double
++ unidadInicial(): UnidadLectura
++ unidadFinal(): UnidadLectura</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>264</x><y>333</y><w>48</w><h>18</h></coordinates><panel_attributes>ConversorIdentidad
+--
+- unidad: UnidadLectura</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>327</x><y>348</y><w>51</w><h>27</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+ConversorTemperatura
+--
+CELSIUS_KELVIN 
+CELSIUS_FARENHEIT
+...</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>354</y><w>51</w><h>21</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+ConversorHumedad
+--
++PORCENTAJE</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>381</x><y>348</y><w>51</w><h>27</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+ConversorPresion
+--
+HPA_PA 
+HPA_MBAR
+...</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>150</x><y>399</y><w>57</w><h>27</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+UnidadLectura
+--
++ imprimirSimbolo(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>189</x><y>453</y><w>45</w><h>27</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+UnidadTemperatura
+--
+CELSIUS
+FAHRENHEIT
+KELVIN</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>237</x><y>453</y><w>45</w><h>27</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+UnidadHumedad
+--
+PORCENTAJE
+TANTO_UNO</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>285</x><y>453</y><w>45</w><h>27</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+UnidadPresion
+--
+HPA
+PA
+MBAR</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>75</x><y>399</y><w>51</w><h>27</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+Estrategia
+--
++ generarValor(min, max): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>453</y><w>42</w><h>18</h></coordinates><panel_attributes>EstrategiaAleatoria
+--
+- probabilidad: double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>75</x><y>453</y><w>45</w><h>21</h></coordinates><panel_attributes>EstrategiaIncremental
+--
+- valorAnterior: double
+- parametro: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>123</x><y>453</y><w>36</w><h>24</h></coordinates><panel_attributes>EstrategiaMedia
+--
+- parametro: int
+- media: double
+- contador: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>225</y><w>57</w><h>33</h></coordinates><panel_attributes>Alerta
+--
+- sensorId: String
+- tipo: TipoAlerta
+- mensaje: String
+- fecha: LocalDateTime</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>246</y><w>66</w><h>24</h></coordinates><panel_attributes>&lt;&lt;abstract&gt;&gt;
+AlertaSensorException
+--
+- sensorId: String
+- tipo: TipoAlerta</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>354</x><y>279</y><w>51</w><h>24</h></coordinates><panel_attributes>CambioBruscoException
+--
+- lecturaAnterior: double
+- lecturaActual: double
+- porcentajeCambio: double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>411</x><y>291</y><w>60</w><h>9</h></coordinates><panel_attributes>LecturaFueraDeRangoException</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>399</x><y>306</y><w>54</w><h>9</h></coordinates><panel_attributes>SensorNoCalibradoException</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>393</x><y>195</y><w>42</w><h>30</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+TipoAlerta
+--
+CAMBIO_BRUSCO
+FUERA_DE_RANGO
+NO_CALIBRADO</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>195</y><w>54</w><h>27</h></coordinates><panel_attributes>Ubicacion
+--
+- latitud: double
+- longitud: double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>138</x><y>168</y><w>54</w><h>21</h></coordinates><panel_attributes>StringLista
+--
+- titulo: String
+- elementos: List&lt;String&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>48</x><y>153</y><w>84</w><h>42</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+IDocumento
+--
++ getTituloDocumento(): String
++ getTituloSeccionPrincipal(): String
++ getParrafosSeccionPrincipal(): List&lt;String&gt;
++ getSeccionesLista(): List&lt;StringLista&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>159</x><y>291</y><w>33</w><h>12</h></coordinates><panel_attributes>lt=-&gt;
+sensor</panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>306</x><y>243</y><w>30</w><h>12</h></coordinates><panel_attributes>lt=-&gt;
+alertas</panel_attributes><additional_attributes>10;20;80;20</additional_attributes></element><element><id>Relation</id><coordinates><x>306</x><y>201</y><w>30</w><h>12</h></coordinates><panel_attributes>lt=-&gt;
+ubicacion</panel_attributes><additional_attributes>10;20;80;20</additional_attributes></element><element><id>Relation</id><coordinates><x>66</x><y>297</y><w>15</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>66</x><y>321</y><w>15</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>66</x><y>351</y><w>15</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>78</x><y>381</y><w>27</w><h>24</h></coordinates><panel_attributes>lt=-&gt;
+estrategia</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>159</x><y>378</y><w>42</w><h>27</h></coordinates><panel_attributes>lt=-&gt;
+unidadLectura</panel_attributes><additional_attributes>10;10;40;10;40;70</additional_attributes></element><element><id>Relation</id><coordinates><x>282</x><y>315</y><w>18</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>40;10;10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>327</x><y>321</y><w>9</w><h>33</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>339</x><y>321</y><w>72</w><h>33</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;60;220;60;220;90</additional_attributes></element><element><id>Relation</id><coordinates><x>258</x><y>297</y><w>42</w><h>12</h></coordinates><panel_attributes>lt=-&gt;
+conversor</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>186</x><y>252</y><w>30</w><h>42</h></coordinates><panel_attributes>lt=-&gt;
+m2=procesadores
+r2=*</panel_attributes><additional_attributes>40;10;10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>165</x><y>423</y><w>48</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;80;140;80;140;100</additional_attributes></element><element><id>Relation</id><coordinates><x>171</x><y>423</y><w>87</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;60;270;60;270;100</additional_attributes></element><element><id>Relation</id><coordinates><x>42</x><y>423</y><w>45</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>130;10;130;80;10;80;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>84</x><y>423</y><w>9</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>423</y><w>60</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;80;180;80;180;100</additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>222</y><w>24</w><h>27</h></coordinates><panel_attributes>lt=-&gt;
+tipo</panel_attributes><additional_attributes>10;70;40;70;40;10</additional_attributes></element><element><id>Relation</id><coordinates><x>357</x><y>264</y><w>39</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>414</x><y>267</y><w>9</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>405</x><y>267</y><w>9</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>222</y><w>15</w><h>30</h></coordinates><panel_attributes>lt=-&gt;
+tipo</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>87</x><y>192</y><w>39</w><h>18</h></coordinates><panel_attributes>lt=.&gt;&gt;
+</panel_attributes><additional_attributes>110;40;10;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>177</x><y>423</y><w>123</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;40;390;40;390;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>201</y><w>57</w><h>18</h></coordinates><panel_attributes>DocEstacionMeteo
+--
+- estacion: EstacionMeteo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>174</x><y>198</y><w>30</w><h>12</h></coordinates><panel_attributes>lt=-&gt;
+estacion</panel_attributes><additional_attributes>10;20;80;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>213</y><w>87</w><h>18</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+Formateador
+--
++ formatear(documento: IDocumento): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>54</x><y>228</y><w>9</w><h>39</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>81</x><y>228</y><w>9</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>66</x><y>249</y><w>54</w><h>9</h></coordinates><panel_attributes>FormateadorMarkdown</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>30</x><y>261</y><w>54</w><h>9</h></coordinates><panel_attributes>FormateadorHTML</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>312</x><y>321</y><w>9</w><h>39</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element></diagram>
