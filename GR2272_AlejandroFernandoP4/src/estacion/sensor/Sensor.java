@@ -121,7 +121,7 @@ public abstract class Sensor {
      *
      * @param fechaCaducidad fecha de caducidad de la calibración.
      */
-    public void calibrar(LocalDateTime fechaCaducidad) {
+    public void calibrar(LocalDateTime fechaCaducidad){
         if(setDuracionCalibracion(fechaCaducidad)) {
             this.fechaUltimaCalibracion = LocalDateTime.now();
             this.estadoCalibracion = true;
