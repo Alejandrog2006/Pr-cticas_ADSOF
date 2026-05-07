@@ -1,9 +1,40 @@
 package GR2272_AlejandroFernandoP5.src;
 
+import GR2272_AlejandroFernandoP5.src.features.Feature;
+import GR2272_AlejandroFernandoP5.src.featurizers.PersonFeaturizer;
+import GR2272_AlejandroFernandoP5.src.featurizers.WeatherFeaturizer;
+import GR2272_AlejandroFernandoP5.src.labellers.ShouldPlayTenisToday;
+import GR2272_AlejandroFernandoP5.src.models.Dataset;
+import GR2272_AlejandroFernandoP5.src.models.LabeledDataset;
+import GR2272_AlejandroFernandoP5.src.models.Person;
+import GR2272_AlejandroFernandoP5.src.models.Weather;
+import GR2272_AlejandroFernandoP5.src.strategies.EntropyStrategy;
+import GR2272_AlejandroFernandoP5.src.strategies.ErrorRateStrategy;
+import GR2272_AlejandroFernandoP5.src.strategies.GiniStrategy;
+import GR2272_AlejandroFernandoP5.src.trees.DecisionTree;
+import GR2272_AlejandroFernandoP5.src.trees.GreedyTreeLearner;
+import GR2272_AlejandroFernandoP5.src.visitors.ConsoleVisitor;
+import GR2272_AlejandroFernandoP5.src.visitors.GraphVizVisitor;
+import GR2272_AlejandroFernandoP5.src.visitors.StringVisitor;
+import GR2272_AlejandroFernandoP5.src.visitors.TreeVisitor;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Clase principal con demostraciones de todos los apartados de la practica.
+ */
 public class Main {
+	/**
+	 * Evita la instanciacion de la clase lanzadora. Para evitar un warning al hacer JavaDoc.
+	 */
+	private Main() {
+	}
+
+	/**
+	 * Ejecuta las demos de los cuatro apartados.
+	 *
+	 * @param args argumentos de linea de comandos.
+	 */
 	public static void main(String[] args) {
 		System.out.println("=== APARTADO 1: Dataset y Features ===\n");
 		demoApartado1();
@@ -18,6 +49,9 @@ public class Main {
 		demoApartado4();
 	}
 	
+	/**
+	 * Demostracion del apartado 1 con datasets y features.
+	 */
 	public static void demoApartado1() {
 		Dataset<Person> dataSet = buildDataSet();
 		System.out.println("dataset: " + dataSet);
@@ -33,8 +67,10 @@ public class Main {
 		System.out.println("Gender distribution: " + dataSet.feature("gender").distribution());
 	}
 	
+	/**
+	 * Demostracion del apartado 2 con aprendizaje greedy y varias estrategias.
+	 */
 	public static void demoApartado2() {
-		// Crear dataset etiquetado de clima
 		LabeledDataset<Weather> weatherDataset = new LabeledDataset<>(
 			new WeatherFeaturizer(), 
 			new ShouldPlayTenisToday()
@@ -57,7 +93,6 @@ public class Main {
 		System.out.println("Weather Dataset: " + weatherDataset);
 		System.out.println("Label Distribution: " + weatherDataset.getLabelDistribution());
 		
-		// Demostrar diferentes estrategias
 		System.out.println("\n--- Usando Gini Strategy ---");
 		GreedyTreeLearner<Weather> learnerGini = new GreedyTreeLearner<>(new GiniStrategy<>());
 		DecisionTree<Weather> treeGini = learnerGini.learn(weatherDataset);
@@ -76,7 +111,6 @@ public class Main {
 		System.out.println("Predicciones (Entropy):");
 		System.out.println(treeEntropy.predict(weatherDataset.items()));
 		
-		// Probar con nuevas instancias
 		System.out.println("\nPredicciones en nuevas instancias:");
 		Weather[] newConditions = {
 			new Weather("sunny", 90, 80, false),
@@ -86,11 +120,12 @@ public class Main {
 		System.out.println(treeGini.predict(Arrays.asList(newConditions)));
 	}
 	
+	/**
+	 * Demostracion del apartado 3 con generacion de predicados desde el arbol.
+	 */
 	public static void demoApartado3() {
-		// Crear el árbol manualmente (como en el apartado 1)
 		DecisionTree<Person> dt = buildPersonDecisionTree();
 		
-		// Generar predicados
 		System.out.println("Predicados generados a partir del árbol:");
 		
 		try {
@@ -103,7 +138,6 @@ public class Main {
 			var femaleP = dt.getPredicate("female");
 			System.out.println("✓ Predicado 'female' generado");
 			
-			// Probar los predicados
 			Person[] people = {
 				new Person("Pedro", 66, 75, 180, true),
 				new Person("Luis", 34, 75, 176, true),
@@ -123,6 +157,11 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Crea un dataset de ejemplo para el apartado 1.
+	 *
+	 * @return dataset de personas con featurizer asociado.
+	 */
 	public static Dataset<Person> buildDataSet() {
 		Person[] people = {
 			new Person("Pedro", 66, 75, 180, true),
@@ -136,6 +175,11 @@ public class Main {
 		return dataSet;
 	}
 
+	/**
+	 * Construye un arbol de decision manual para el ejemplo de personas.
+	 *
+	 * @return arbol de decision preparado.
+	 */
 	public static DecisionTree<Person> buildPersonDecisionTree() {
 		DecisionTree<Person> dt = new DecisionTree<>();
 		dt.node("root")
@@ -150,8 +194,10 @@ public class Main {
 		return dt;
 	}
 	
+	/**
+	 * Demostracion del apartado 4 con visitantes de visualizacion.
+	 */
 	public static void demoApartado4() {
-		// Crear el árbol manualmente
 		DecisionTree<Person> dt = buildPersonDecisionTree();
 		
 		System.out.println("--- Console Visitor ---");
@@ -168,7 +214,6 @@ public class Main {
 		TreeVisitor<Person> graphvizVisitor = new GraphVizVisitor<>();
 		graphvizVisitor.visitDecisionTree(dt);
 		
-		// Crear un árbol aprendido con GreedyTreeLearner
 		System.out.println("\n\n--- Learned Tree Visualization ---");
 		LabeledDataset<Weather> weatherDataset = new LabeledDataset<>(
 			new WeatherFeaturizer(), 
@@ -202,4 +247,3 @@ public class Main {
 		weatherGraphViz.visitDecisionTree(learnedTree);
 	}
 }
-
