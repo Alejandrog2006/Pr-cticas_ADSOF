@@ -10,14 +10,12 @@ import java.util.function.Predicate;
  *
  * @param <T> tipo de los elementos almacenados.
  */
-public class LabeledDataset<T> {
-    private final List<T> items = new ArrayList<>();
+public class LabeledDataset<T> extends Dataset<T> {
     private final Map<T, String> labels = new LinkedHashMap<>();
-    private final Featurizer<T> featurizer;
     private final Labeller<T> labeller;
 
     public LabeledDataset(Featurizer<T> featurizer, Labeller<T> labeller) {
-        this.featurizer = Objects.requireNonNull(featurizer);
+        super(featurizer);
         this.labeller = Objects.requireNonNull(labeller);
     }
 
@@ -26,9 +24,11 @@ public class LabeledDataset<T> {
      *
      * @param item elemento a insertar.
      */
-    public void add(T item) {
-        items.add(item);
+    @Override
+    public boolean add(T item) {
+        super.add(item);
         labels.put(item, labeller.label(item));
+        return true;
     }
 
     /**
@@ -36,8 +36,9 @@ public class LabeledDataset<T> {
      *
      * @param values elementos a insertar.
      */
+    @Override
     public void addAll(T[] values) {
-        for (T value : values) add(value);
+        for (T value : values) super.add(value);
     }
 
     /**
@@ -45,8 +46,9 @@ public class LabeledDataset<T> {
      *
      * @param values elementos a insertar.
      */
+    @Override
     public void addAll(Iterable<? extends T> values) {
-        for (T value : values) add(value);
+        for (T value : values) super.add(value);
     }
 
     /**
@@ -63,13 +65,6 @@ public class LabeledDataset<T> {
      * @return tamano del dataset.
      */
     public int size() { return items.size(); }
-
-    /**
-     * Devuelve una copia de los elementos.
-     *
-     * @return lista con los elementos.
-     */
-    public List<T> items() { return new ArrayList<>(items); }
 
     /**
      * Devuelve el featurizer asociado.
