@@ -10,8 +10,8 @@ import java.util.*;
  * @param <T> tipo de los elementos almacenados.
  */
 public class Dataset<T> {
-    private final Collection<T> items = new ArrayList<>();
-    private final Featurizer<T> featurizer;
+    protected final Collection<T> items = new ArrayList<>();
+    protected final Featurizer<T> featurizer;
 
     public Dataset() {
         this.featurizer = null;
