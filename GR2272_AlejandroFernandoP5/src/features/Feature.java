@@ -1,4 +1,4 @@
-package GR2272_AlejandroFernandoP5.src.features;
+package features;
 
 import java.util.ArrayList;
 import java.util.Collections;

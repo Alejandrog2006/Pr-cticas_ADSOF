@@ -1,4 +1,4 @@
-package GR2272_AlejandroFernandoP5.src.models;
+package models;
 
 import java.util.Objects;
 

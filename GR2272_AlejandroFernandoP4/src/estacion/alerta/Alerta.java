@@ -65,4 +65,13 @@ public class Alerta {
     public LocalDateTime getFecha() {
         return fecha;
     }
+
+    /**
+     * Devuelve la alerta en texto siguiendo la plantilla:
+     * [fecha] mensaje
+     */
+    @Override
+    public String toString() {
+        return "[" + fecha + "] " + mensaje;
+    }
 }

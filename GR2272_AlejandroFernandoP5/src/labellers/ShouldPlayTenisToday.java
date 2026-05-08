@@ -1,6 +1,6 @@
-package GR2272_AlejandroFernandoP5.src.labellers;
+package labellers;
 
-import GR2272_AlejandroFernandoP5.src.models.Weather;
+import models.Weather;
 
 /**
  * Etiquetador de ejemplo para el clasico conjunto de datos meteorologicos.

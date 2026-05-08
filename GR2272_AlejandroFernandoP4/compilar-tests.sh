@@ -1,34 +1,34 @@
 #!/bin/bash
 
-# Script para compilar y ejecutar tests manualmente
+set -e
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT_DIR"
+
+BIN_DIR="bin"
+SRC_DIR="src"
+TEST_DIR="test"
+
+echo "=== Limpiando binarios anteriores ==="
+rm -rf "$BIN_DIR"
+mkdir -p "$BIN_DIR"
 
 echo "=== Compilando código fuente ==="
-javac -d bin src/estacion/*.java src/estacion/**/*.java 2>/dev/null
-
-if [ $? -ne 0 ]; then
-    echo "Error compilando código fuente"
-    exit 1
-fi
-
-echo "✓ Código fuente compilado exitosamente\n"
+find "$SRC_DIR" -name '*.java' -print0 | xargs -0 javac -d "$BIN_DIR"
+echo "Código fuente compilado"
+echo
 
 echo "=== Compilando tests ==="
-javac -cp bin -d bin $(find test -name '*.java' -type f) 2>/dev/null
+find "$TEST_DIR" -name '*.java' -print0 | xargs -0 javac -cp "$BIN_DIR" -d "$BIN_DIR"
+echo "Tests compilados"
+echo
 
-if [ $? -ne 0 ]; then
-    echo "Error compilando tests"
-    exit 1
-fi
+echo "=== Ejecutando tests ==="
+mapfile -t TEST_CLASSES < <(find "$TEST_DIR" -name '*Test.java' | sort | sed -E 's#^test/##; s#/#.#g; s#\.java$##')
 
-echo "✓ Tests compilados exitosamente\n"
+for test_class in "${TEST_CLASSES[@]}"; do
+    java -ea -cp "$BIN_DIR" "$test_class"
+    echo
+done
 
-echo "=== Ejecutando tests ===\n"
-cd bin
-java -ea -cp . estacion.sensor.SensorTest
-echo ""
-java -ea -cp . estacion.sensor.SensorEstrategiasTest
-echo ""
-java -ea -cp . estacion.EstacionMeteoTest
-
-echo ""
-echo "=== Tests completados ==="
+echo "=== Todos los tests finalizados ==="

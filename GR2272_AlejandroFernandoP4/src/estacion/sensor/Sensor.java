@@ -1,7 +1,3 @@
-/*
- * Clase base de todos los sensores meteorológicos del proyecto.
- * Hecho por Alejandro González y Fernando Blanco.
- */
 package estacion.sensor;
 
 import java.time.*;
@@ -12,6 +8,8 @@ import estacion.unidadLectura.*;
 
 /**
  * Clase abstracta que encapsula el comportamiento común de los sensores.
+ * @author Alejandro González
+ * @author Fernando Blanco
  */
 public abstract class Sensor {
     private Duration intervaloCalibracion = Duration.ofDays(365); // por defecto
@@ -215,4 +213,13 @@ public abstract class Sensor {
     public double getOffset() {
         return this.offset;
     }
+
+
+        @Override
+    public String toString() {
+        return (id != null ? id : "UNKNOWN")
+            + " (" + unidadLectura + "): "
+            + ultimaLectura;
+    }
+
 }

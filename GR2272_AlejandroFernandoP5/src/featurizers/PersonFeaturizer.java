@@ -1,6 +1,6 @@
-package GR2272_AlejandroFernandoP5.src.featurizers;
+package featurizers;
 
-import GR2272_AlejandroFernandoP5.src.models.Person;
+import models.Person;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

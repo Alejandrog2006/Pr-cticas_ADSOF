@@ -2,7 +2,7 @@
  * Clase auxiliar para representar la ubicación geográfica de la estación meteorológica.
  * Hecho por Alejandro González y Fernando Blanco.
  */
-package estacion;
+package estacion.aux;
 /**
  * Representa una ubicación geográfica mediante latitud y longitud.
  */

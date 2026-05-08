@@ -1,11 +1,9 @@
-/*
- * Unidades de presión soportadas por la estación.
- * Hecho por Alejandro González y Fernando Blanco.
- */
 package estacion.unidadLectura;
 
 /**
  * Unidades de presión disponibles.
+ * @author Alejandro González
+ * @author Fernando Blanco
  */
 public enum UnidadPresion implements UnidadLectura {
     HPA("hPa"), PA("Pa"), MBAR("mbar");
