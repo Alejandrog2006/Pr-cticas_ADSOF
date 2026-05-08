@@ -1,7 +1,7 @@
-package GR2272_AlejandroFernandoP5.src.models;
+package models;
 
-import GR2272_AlejandroFernandoP5.src.featurizers.Featurizer;
-import GR2272_AlejandroFernandoP5.src.labellers.Labeller;
+import featurizers.Featurizer;
+import labellers.Labeller;
 import java.util.*;
 import java.util.function.Predicate;
 

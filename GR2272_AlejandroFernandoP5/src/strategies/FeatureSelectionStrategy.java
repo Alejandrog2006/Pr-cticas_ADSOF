@@ -1,6 +1,6 @@
-package GR2272_AlejandroFernandoP5.src.strategies;
+package strategies;
 
-import GR2272_AlejandroFernandoP5.src.models.LabeledDataset;
+import models.LabeledDataset;
 
 /**
  * Estrategia para elegir la mejor feature al dividir un dataset etiquetado.

@@ -1,6 +1,6 @@
-package GR2272_AlejandroFernandoP5.src.trees;
+package trees;
 
-import GR2272_AlejandroFernandoP5.src.visitors.TreeVisitor;
+import visitors.TreeVisitor;
 import java.util.*;
 import java.util.function.Predicate;
 

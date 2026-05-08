@@ -1,7 +1,7 @@
-package GR2272_AlejandroFernandoP5.src.models;
+package models;
 
-import GR2272_AlejandroFernandoP5.src.featurizers.Featurizer;
-import GR2272_AlejandroFernandoP5.src.features.Feature;
+import featurizers.Featurizer;
+import features.Feature;
 import java.util.*;
 
 /**

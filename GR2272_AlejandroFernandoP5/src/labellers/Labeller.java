@@ -1,4 +1,4 @@
-package GR2272_AlejandroFernandoP5.src.labellers;
+package labellers;
 
 /**
  * Asigna una etiqueta a un objeto de tipo parametrico.

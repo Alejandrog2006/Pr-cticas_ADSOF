@@ -1,8 +1,8 @@
-package GR2272_AlejandroFernandoP5.src.trees;
+package trees;
 
-import GR2272_AlejandroFernandoP5.src.models.LabeledDataset;
-import GR2272_AlejandroFernandoP5.src.strategies.FeatureSelectionStrategy;
-import GR2272_AlejandroFernandoP5.src.strategies.GiniStrategy;
+import models.LabeledDataset;
+import strategies.FeatureSelectionStrategy;
+import strategies.GiniStrategy;
 import java.util.*;
 
 /**

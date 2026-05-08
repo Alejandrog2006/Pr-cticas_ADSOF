@@ -1,4 +1,4 @@
-package GR2272_AlejandroFernandoP5.src.featurizers;
+package featurizers;
 
 import java.util.Map;
 

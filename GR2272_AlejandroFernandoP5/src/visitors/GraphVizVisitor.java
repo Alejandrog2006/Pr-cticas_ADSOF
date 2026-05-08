@@ -1,6 +1,6 @@
-package GR2272_AlejandroFernandoP5.src.visitors;
+package visitors;
 
-import GR2272_AlejandroFernandoP5.src.trees.DecisionTree;
+import trees.DecisionTree;
 import java.util.*;
 
 /**
